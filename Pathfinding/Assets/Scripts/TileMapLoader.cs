@@ -8,7 +8,8 @@ using UnityEngine.Tilemaps;
 public class TileMapLoader : MonoBehaviour
 {
     public string mapFileName = "";
-    
+    public Maps map = Maps.NONE;
+
     public  Tilemap tileMap;
 
     public TileData boundaryTile;
@@ -41,7 +42,17 @@ public class TileMapLoader : MonoBehaviour
     [ContextMenu("Load Map from File")]
     public void LoadTileMap()
     {
-        string mapFilePath = "Assets/Maps/" + mapFileName + ".map";
+        string mapName = mapFileName;
+        if (map == Maps.AR0011SR)
+            mapName = "AR0011SR";
+        if (map == Maps.arena2)
+            mapName = "arena2";
+        if (map == Maps.hrt201n)
+            mapName = "hrt201n";
+        if (map == Maps.lak104d)
+            mapName = "lak104d";
+
+        string mapFilePath = "Assets/Maps/" + mapName + ".map";
 
         if (!File.Exists(mapFilePath))
         {
@@ -89,6 +100,9 @@ public class TileMapLoader : MonoBehaviour
 
             line = reader.ReadLine();
         }
+
+        tileMap.ClearAllTiles();
+
         for (int i = 0; i < rows; i++)
         {
             line = reader.ReadLine();
@@ -115,5 +129,14 @@ public class TileMapLoader : MonoBehaviour
         public char key;
         public Tile tile;
         //public WalkableAreas[] contactPoints;
+    }
+
+    public enum Maps
+    {
+        AR0011SR,
+        arena2,
+        hrt201n,
+        lak104d, 
+        NONE
     }
 }
