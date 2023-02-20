@@ -203,7 +203,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.2784314, g: 0.2784314, b: 0.2784314, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -411,11 +411,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 835e96c228c34804291369db001b702c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapFileName: lak104d
+  mapFileName: hrt201n
   tileMap: {fileID: 1522021445}
   boundaryTile:
     key: 64
-    tile: {fileID: 0}
+    tile: {fileID: 11400000, guid: 64d694e23ac714744a189f8ec2dcd1a8, type: 2}
   unpassableTile:
     key: 84
     tile: {fileID: 11400000, guid: 5277951b18c2f3f4a82d819372de57ae, type: 2}

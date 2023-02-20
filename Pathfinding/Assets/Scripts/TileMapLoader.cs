@@ -21,6 +21,7 @@ public class TileMapLoader : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StoreTileData(boundaryTile);
         StoreTileData(unpassableTile);
         StoreTileData(walkableTile);
     }
@@ -47,6 +48,10 @@ public class TileMapLoader : MonoBehaviour
             Debug.LogError("FILE DOES NOT EXIST: " + mapFilePath);
             return;
         }
+        else
+        {
+            Debug.Log(mapFilePath);
+        }
 
         string height = "height ";
         string width = "width ";
@@ -59,6 +64,7 @@ public class TileMapLoader : MonoBehaviour
         while (line != null && !line.Equals("map"))
         {
             line = line.ToLower();
+            Debug.Log(line);
             if (line.Contains(height))
             {
                 string heightVal = line.Substring(line.IndexOf(height) + height.Length);
@@ -81,14 +87,23 @@ public class TileMapLoader : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < rows; i++)
-            {
-                line = reader.ReadLine();
+            line = reader.ReadLine();
+        }
+        for (int i = 0; i < rows; i++)
+        {
+            line = reader.ReadLine();
 
-                for (int j = 0; j < columns; j++)
+            for (int j = 0; j < columns; j++)
+            {
+                if (tileKeyLookUp.ContainsKey(line[j]))
                 {
+                    //Debug.Log(line[j]);
                     Tile tile = tileKeyLookUp[line[j]].tile;
-                    tileMap.SetTile(new Vector3Int(i, j, 0), tile);
+                    tileMap.SetTile(new Vector3Int(j, -i, 0), tile);
+                }
+                else
+                {
+                    Debug.Log("UNKNOWN KEY : " + line[j]);
                 }
             }
         }
