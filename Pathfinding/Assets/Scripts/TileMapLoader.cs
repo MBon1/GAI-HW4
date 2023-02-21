@@ -10,7 +10,7 @@ public class TileMapLoader : MonoBehaviour
     public string mapFileName = "";
     public Maps map = Maps.NONE;
 
-    public  Tilemap tileMap;
+    public Tilemap tileMap;
 
     public TileData boundaryTile;
     public TileData unpassableTile;
@@ -120,6 +120,20 @@ public class TileMapLoader : MonoBehaviour
                     Debug.Log("UNKNOWN KEY : " + line[j]);
                 }
             }
+        }
+    }
+
+    public bool IsTraversable(Vector3Int position)
+    {
+        Tile tile = tileMap.GetTile<Tile>(position);
+
+        if (tile == null || tile == boundaryTile.tile || tile == unpassableTile.tile)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 
