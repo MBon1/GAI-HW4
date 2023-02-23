@@ -11,12 +11,18 @@ public class Map
     public Dictionary<Vector3, MapNode> nodeByPosition { get; private set; } = new Dictionary<Vector3, MapNode>();
     public Dictionary<MapNode, Vector2Int> nodeMapLookUp { get; private set; } = new Dictionary<MapNode, Vector2Int>();
 
-    public Map(int width, int height, int tilesPerNode)
+    // Pathfinding Variables
+    public static int tilesPerNode = 1;
+
+
+    public Map(int width, int height, int _tilesPerNode)
     {
-        rows = (int)Mathf.Ceil((float)height / tilesPerNode);
-        columns = (int)Mathf.Ceil((float)width / tilesPerNode);
+        rows = (int)Mathf.Ceil((float)height / _tilesPerNode);
+        columns = (int)Mathf.Ceil((float)width / _tilesPerNode);
 
         map = new MapNode[rows, columns];
+
+        tilesPerNode = _tilesPerNode;
     }
 
     public void SetCell(int row, int col, MapNode node)
@@ -47,7 +53,7 @@ public class Map
         nodeMapLookUp.Add(node, new Vector2Int(row, col));
     }
 
-    public List<MapNode> GetNeighboringNodes(MapNode node)
+    public List<MapNode> getNeighbors(MapNode node)
     {
         if (!nodeMapLookUp.ContainsKey(node))
         {
@@ -55,10 +61,10 @@ public class Map
         }
 
         Vector2Int posInMap = nodeMapLookUp[node];
-        return GetNeighboringNodes(posInMap.x, posInMap.y);
+        return getNeighbors(posInMap.x, posInMap.y);
     }
 
-    public List<MapNode> GetNeighboringNodes(int row, int col)
+    public List<MapNode> getNeighbors(int row, int col)
     {
         List<MapNode> neighbors = new List<MapNode>();
 
@@ -68,6 +74,7 @@ public class Map
             return neighbors;
         }
 
+        // Rows
         int minRow = row - 1;
         if (minRow >= 0)
         {
@@ -80,7 +87,7 @@ public class Map
             neighbors.Add(map[maxRow, col]);
         }
 
-
+        // Columns
         int minCol = row - 1;
         if (minCol >= 0)
         {
@@ -94,53 +101,5 @@ public class Map
         }
 
         return neighbors;
-    }
-
-    public class MapNode
-    {
-        public List<Vector3Int> tiles { get; private set; } = new List<Vector3Int>();
-        public Vector3 position { get; private set; } = Vector3.zero;
-
-        public float g { get; private set; } = 0;  // Distance from starting node
-        public float h { get; private set; } = 0;  // Distance from end node
-        public float f { get; private set; } = 0;  // G cost + H cost
-
-        public Node parent = null;
-
-        public MapNode(int tilesPerNode, Vector3Int initNode)
-        {
-            SetNode(tilesPerNode, initNode);
-        }
-
-        public MapNode(int tilesPerNode, Vector3Int initNode, Vector3Int startPosition, Vector3Int endPosition)
-        {
-            SetNode(tilesPerNode, initNode);
-            SetGHF(Vector3.Distance(position, startPosition), Vector3.Distance(position, endPosition));
-        }
-
-        private void SetNode(int tilesPerNode, Vector3Int initNode)
-        {
-            for (int i = 0; i < tilesPerNode; i++)
-            {
-                for (int j = 0; j < tilesPerNode; j++)
-                {
-                    position += new Vector3(initNode.x + i, initNode.y + j, initNode.z);
-                }
-            }
-
-            position /= Mathf.Pow(tilesPerNode, 2);
-        }
-
-        public void SetGHF(float g, float h)
-        {
-            this.g = g;
-            this.h = h;
-            SetF();
-        }
-
-        private void SetF()
-        {
-            f = g + h;
-        }
     }
 }
