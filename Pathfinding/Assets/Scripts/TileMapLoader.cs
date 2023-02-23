@@ -20,7 +20,10 @@ public class TileMapLoader : MonoBehaviour
     Dictionary<char, TileData> tileKeyLookUp = new Dictionary<char, TileData>();
 
     public int tilesPerNode = 1;
-    Map map = null;
+    public Map map { get; private set; } = null;
+
+    [Space(10)]
+    [SerializeField] PathFindingMouseController mouseController;
 
     // Start is called before the first frame update
     void Start()
@@ -149,6 +152,8 @@ public class TileMapLoader : MonoBehaviour
                 }
             }
         }
+
+        mouseController.Reset();
     }
 
     // Old function to check if a node is traversable

@@ -169,4 +169,58 @@ public class MapNode
         }
         return true;
     }
+
+    public void SetNodeColor(TraverseColor color)
+    {
+        Color c;
+
+        if (color == TraverseColor.Open)
+        {
+            c = new Color(0, 110f / 255f, 1, 1);
+        }
+        else if (color == TraverseColor.Closed)
+        {
+            c = new Color(1, 12f / 255f, 0, 1);
+        }
+        else if (color == TraverseColor.Start)
+        {
+            c = new Color(1, 229f / 255f, 0, 1);
+        }
+        else if (color == TraverseColor.End)
+        {
+            c = new Color(1, 0, 217f / 255f, 1);
+        }
+        else
+        {
+            c = Color.white;
+        }
+
+        SetNodeColor(c);
+
+    }
+
+    /* Changes the color of all tiles represented by this node.
+     * 
+     *    Takes: Color
+     * Modifies: colors of tiles
+     *  Returns: NONE
+     *  Expects: NONE
+     */
+    public void SetNodeColor(Color color)
+    {
+        foreach (Vector3Int tile in tiles)
+        {
+            tilemap.SetTileFlags(tile, TileFlags.None);
+            tilemap.SetColor(tile, color);
+        }
+    }
+
+    public enum TraverseColor
+    {
+        Open,
+        Closed, 
+        Start,
+        End,
+        None
+    }
 }
