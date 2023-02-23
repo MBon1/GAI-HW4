@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 public class TileMapLoader : MonoBehaviour
 {
     public string mapFileName = "";
-    public Maps map = Maps.NONE;
+    public Maps mapFile = Maps.NONE;
 
     public Tilemap tileMap;
 
@@ -18,6 +18,9 @@ public class TileMapLoader : MonoBehaviour
 
     Dictionary<Tile, TileData> tileLookUp = new Dictionary<Tile, TileData>();
     Dictionary<char, TileData> tileKeyLookUp = new Dictionary<char, TileData>();
+
+    public int tilesPerNode = 1;
+    Map map = null;
 
     // Start is called before the first frame update
     void Start()
@@ -42,15 +45,18 @@ public class TileMapLoader : MonoBehaviour
     [ContextMenu("Load Map from File")]
     public void LoadTileMap()
     {
+        // Get the map to load
         string mapName = mapFileName;
-        if (map == Maps.AR0011SR)
+        if (mapFile == Maps.AR0011SR)
             mapName = "AR0011SR";
-        if (map == Maps.arena2)
+        if (mapFile == Maps.arena2)
             mapName = "arena2";
-        if (map == Maps.hrt201n)
+        if (mapFile == Maps.hrt201n)
             mapName = "hrt201n";
-        if (map == Maps.lak104d)
+        if (mapFile == Maps.lak104d)
             mapName = "lak104d";
+        if (mapFile == Maps.test)
+            mapName = "test";
 
         string mapFilePath = "Assets/Maps/" + mapName + ".map";
 
@@ -75,11 +81,11 @@ public class TileMapLoader : MonoBehaviour
         while (line != null && !line.Equals("map"))
         {
             line = line.ToLower();
-            Debug.Log(line);
+            //Debug.Log(line);
             if (line.Contains(height))
             {
                 string heightVal = line.Substring(line.IndexOf(height) + height.Length);
-                Debug.Log(heightVal);
+                //Debug.Log(heightVal);
                 if (!int.TryParse(heightVal, out rows))
                 {
                     Debug.LogError("INVALID HEIGHT VALUE: " + heightVal);
@@ -90,7 +96,7 @@ public class TileMapLoader : MonoBehaviour
             if (line.Contains(width))
             {
                 string widthVal = line.Substring(line.IndexOf(width) + width.Length);
-                Debug.Log(widthVal);
+                //Debug.Log(widthVal);
                 if (!int.TryParse(widthVal, out columns))
                 {
                     Debug.LogError("INVALID WIDTH VALUE: " + widthVal);
@@ -101,6 +107,8 @@ public class TileMapLoader : MonoBehaviour
             line = reader.ReadLine();
         }
 
+        // Reset Maps
+        map = new Map(columns, rows, tilesPerNode);
         tileMap.ClearAllTiles();
 
         for (int i = 0; i < rows; i++)
@@ -109,15 +117,25 @@ public class TileMapLoader : MonoBehaviour
 
             for (int j = 0; j < columns; j++)
             {
+                Vector3Int tilePos = new Vector3Int(i, j, 0);   // If Tilemap is not translated and rotated : Vector3Int(j, -i, 0)
                 if (tileKeyLookUp.ContainsKey(line[j]))
                 {
                     //Debug.Log(line[j]);
                     Tile tile = tileKeyLookUp[line[j]].tile;
-                    tileMap.SetTile(new Vector3Int(j, -i, 0), tile);
+                    tileMap.SetTile(tilePos, tile);
                 }
                 else
                 {
                     Debug.Log("UNKNOWN KEY : " + line[j]);
+                }
+
+                MapNode node = new MapNode(map.tilesPerNode, tilePos);
+
+                if (i % tilesPerNode == 0 && j % tilesPerNode == 0)
+                {
+                    Vector2Int mapPos = new Vector2Int(Mathf.FloorToInt(i / (float)tilesPerNode), Mathf.FloorToInt(j / (float)tilesPerNode));
+                    map.SetCell(mapPos.x, mapPos.y, node);
+                    //Debug.Log("Node (" + mapPos.x + ", " + mapPos.y + ") @ (" + tilePos.x + ", " + tilePos.y + ") : ");
                 }
             }
         }
@@ -150,7 +168,8 @@ public class TileMapLoader : MonoBehaviour
         AR0011SR,
         arena2,
         hrt201n,
-        lak104d, 
+        lak104d,
+        test,
         NONE
     }
 }

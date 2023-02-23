@@ -10,7 +10,7 @@ public class AStar : MonoBehaviour
         
     }
 
-    public void AStarAlgorithm(Node startNode, Node finishNode)
+    /*public void AStarAlgorithm(Node startNode, Node finishNode)
     {
         List<Node> openList = new List<Node>();
         List<Node> closedList = new List<Node>();
@@ -56,7 +56,5 @@ public class AStar : MonoBehaviour
             }
 
         }
-}
-
-
+    }*/
 }

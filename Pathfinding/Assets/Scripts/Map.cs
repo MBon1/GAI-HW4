@@ -12,7 +12,7 @@ public class Map
     public Dictionary<MapNode, Vector2Int> nodeMapLookUp { get; private set; } = new Dictionary<MapNode, Vector2Int>();
 
     // Pathfinding Variables
-    public static int tilesPerNode = 1;
+    public int tilesPerNode { get; private set; } = 1;
 
 
     public Map(int width, int height, int _tilesPerNode)

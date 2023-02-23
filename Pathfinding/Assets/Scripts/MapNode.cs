@@ -14,31 +14,27 @@ public class MapNode
 
     public Node parent = null;
 
-    public Tilemap tilemap { get; private set; }
-    public List<Tile> traversableTiles { get; private set; }
 
-
-    public MapNode(Tilemap tilemap, List<Tile> walkableTiles, int tilesPerNode, Vector3Int initNode)
+    public MapNode(int tilesPerNode, Vector3Int initNode)
     {
-        SetNode(tilemap, walkableTiles, tilesPerNode, initNode);
+        SetNode(tilesPerNode, initNode);
     }
 
-    public MapNode(Tilemap tilemap, List<Tile> walkableTiles, int tilesPerNode, Vector3Int initNode, Vector3Int startPosition, Vector3Int endPosition)
+    public MapNode(int tilesPerNode, Vector3Int initNode, Vector3Int startPosition, Vector3Int endPosition)
     {
-        SetNode(tilemap, walkableTiles, tilesPerNode, initNode);
+        SetNode(tilesPerNode, initNode);
         SetGHF(startPosition, endPosition);
     }
 
-    private void SetNode(Tilemap _tilemap, List<Tile> walkableTiles, int tilesPerNode, Vector3Int initNode)
+    private void SetNode(int tilesPerNode, Vector3Int initNode)
     {
-        tilemap = _tilemap;
-        traversableTiles = walkableTiles;
-
         for (int i = 0; i < tilesPerNode; i++)
         {
             for (int j = 0; j < tilesPerNode; j++)
             {
-                position += new Vector3(initNode.x + i, initNode.y + j, initNode.z);
+                Vector3Int tile = new Vector3Int(initNode.x + i, initNode.y + j, 0);
+                tiles.Add(tile);
+                position += tile;
             }
         }
 
@@ -62,16 +58,22 @@ public class MapNode
         f = g + h;
     }
 
-    public bool IsTraversable()
+    public void ResetTraverseData()
     {
-        foreach (Vector3Int tile in tiles)
+        SetGHF(0, 0);
+        parent = null;
+    }
+
+    public bool IsTraversable(Tilemap tilemap, Tile traversableTile)
+    {
+        foreach(Vector3Int tile in tiles)
         {
-            if (!traversableTiles.Contains(tilemap.GetTile<Tile>(tile)))
+            Tile t = tilemap.GetTile<Tile>(tile);
+            if (t == null || t != traversableTile)
             {
                 return false;
             }
         }
-
         return true;
     }
 }
