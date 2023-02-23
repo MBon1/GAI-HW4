@@ -30,18 +30,28 @@ public class TileMapLoader : MonoBehaviour
         StoreTileData(walkableTile);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /* Record tile data into look up tables.
+     * 
+     *    Takes: TileData
+     * Modifies: tileLookUp
+     *           tileKeyLookUp
+     *  Returns: NONE
+     *  Expects: NONE
+     */
     private void StoreTileData(TileData tileData)
     {
         tileLookUp.Add(tileData.tile, tileData);
         tileKeyLookUp.Add(tileData.key, tileData);
     }
 
+    /* Loads a map from a selected file. 
+     * 
+     *    Takes: NONE
+     * Modifies: tileMap
+     *           map
+     *  Returns: NONE
+     *  Expects: NONE
+     */
     [ContextMenu("Load Map from File")]
     public void LoadTileMap()
     {
@@ -129,18 +139,19 @@ public class TileMapLoader : MonoBehaviour
                     Debug.Log("UNKNOWN KEY : " + line[j]);
                 }
 
-                MapNode node = new MapNode(map.tilesPerNode, tilePos);
+                MapNode node = new MapNode(tileMap, walkableTile.tile, map.tilesPerNode, tilePos);
 
                 if (i % tilesPerNode == 0 && j % tilesPerNode == 0)
                 {
                     Vector2Int mapPos = new Vector2Int(Mathf.FloorToInt(i / (float)tilesPerNode), Mathf.FloorToInt(j / (float)tilesPerNode));
                     map.SetCell(mapPos.x, mapPos.y, node);
-                    //Debug.Log("Node (" + mapPos.x + ", " + mapPos.y + ") @ (" + tilePos.x + ", " + tilePos.y + ") : ");
+                    Debug.Log("Node (" + mapPos.x + ", " + mapPos.y + ") @ (" + tilePos.x + ", " + tilePos.y + ") : ");
                 }
             }
         }
     }
 
+    // Old function to check if a node is traversable
     public bool IsTraversable(Vector3Int position)
     {
         Tile tile = tileMap.GetTile<Tile>(position);

@@ -14,7 +14,18 @@ public class Map
     // Pathfinding Variables
     public int tilesPerNode { get; private set; } = 1;
 
-
+    /* Creates a Map.
+     * 
+     *    Takes: int (map width)
+     *           int (map height)
+     *           int (number of tiles per node in this map)
+     * Modifies: rows
+     *           columns
+     *           map
+     *           tilesPerNode
+     *  Returns: Map
+     *  Expects: NONE
+     */
     public Map(int width, int height, int _tilesPerNode)
     {
         rows = (int)Mathf.Ceil((float)height / _tilesPerNode);
@@ -25,6 +36,19 @@ public class Map
         tilesPerNode = _tilesPerNode;
     }
 
+    /* Set a cell at the given row and column of the map with the given node.
+     * Does not check if cell requested exists in the map.
+     * 
+     *    Takes: int
+     *           int
+     *           MapNode
+     * Modifies: map
+     *           nodeByTile
+     *           nodeByPosition
+     *           nodeByMapLookUp
+     *  Returns: NONE
+     *  Expects: NONE
+     */
     public void SetCell(int row, int col, MapNode node)
     {
         if (map[row, col] != null)
@@ -53,6 +77,14 @@ public class Map
         nodeMapLookUp.Add(node, new Vector2Int(row, col));
     }
 
+    /* Returns the neighboring nodes of a requested node.
+     * If the node does not exist in the map, an empty list is returned.
+     * 
+     *    Takes: MapNode
+     * Modifies: NONE
+     *  Returns: List<MapNode> (list of neighboring nodes to the given node)
+     *  Expects: NONE
+     */
     public List<MapNode> getNeighbors(MapNode node)
     {
         if (!nodeMapLookUp.ContainsKey(node))
@@ -64,6 +96,15 @@ public class Map
         return getNeighbors(posInMap.x, posInMap.y);
     }
 
+    /* Returns the neighboring nodes of a requested cell.
+     * If the cell is outside of the map, an empty list is returned.
+     * 
+     *    Takes: int
+     *           int
+     * Modifies: NONE
+     *  Returns: List<MapNode> (list of neighboring nodes to the given cell)
+     *  Expects: NONE
+     */
     public List<MapNode> getNeighbors(int row, int col)
     {
         List<MapNode> neighbors = new List<MapNode>();
