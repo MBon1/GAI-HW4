@@ -8,9 +8,9 @@ public class MapNode
     public List<Vector3Int> tiles { get; private set; } = new List<Vector3Int>();
     public Vector3 position { get; private set; } = Vector3.zero;
 
-    public float g { get; private set; } = 0;  // Distance from starting node
-    public float h { get; private set; } = 0;  // Distance from end node
-    public float f { get; private set; } = 0;  // G cost + H cost
+    public float g { get; private set; } = int.MaxValue;  // Distance from starting node
+    public float h { get; private set; } = int.MaxValue;  // Distance from end node
+    public float f { get; private set; } = int.MaxValue;  // G cost + H cost
 
     public Node parent = null;
 
@@ -133,20 +133,26 @@ public class MapNode
         f = g + h;
     }
 
-    /* Zeroes out G, H, and F values. Nulls out parent value.
+    /* Sets G, H, and F values to max int value. 
+     * Nulls out parent value. 
+     * Sets color to None.
      * 
      *    Takes: NONE
      * Modifies: g
      *           h
      *           f
      *           parent
+     *           color of tiles
      *  Returns: NONE
      *  Expects: NONE
      */
     public void ResetTraverseData()
     {
-        SetGHF(0, 0);
+        g = int.MaxValue;
+        h = int.MaxValue;
+        f = int.MaxValue;
         parent = null;
+        SetNodeColor(TraverseColor.None);
     }
 
     /* Checks if the tile is traversable.

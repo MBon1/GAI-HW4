@@ -143,4 +143,12 @@ public class Map
 
         return neighbors;
     }
+
+    public void ResetPathFinding()
+    {
+        foreach(MapNode node in map)
+        {
+            node.ResetTraverseData();
+        }
+    }
 }
