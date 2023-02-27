@@ -172,7 +172,8 @@ public class Map
                 {
                     continue;
                 }
-                // Do ray casting to determine neighbors
+
+                // ASSIGNMENT : Do ray casting to determine neighbors
                 // If ray cast does NOT hit something, add node to neighbors 
             }
         }
