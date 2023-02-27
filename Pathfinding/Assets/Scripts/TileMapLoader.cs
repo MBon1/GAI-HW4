@@ -163,6 +163,9 @@ public class TileMapLoader : MonoBehaviour
         {
             // ASSIGNMENT : SET WHICH NODES ARE WAY POINTS
 
+            // If a node is a waypoint, set map node to way point color
+            // mapNode.SetNodeColor(TraverseColor.WayPoint);
+
             // Remove all non-way-points
             map.RemoveNonWayPoints();
         }
