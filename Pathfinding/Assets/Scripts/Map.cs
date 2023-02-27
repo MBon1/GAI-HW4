@@ -6,6 +6,7 @@ public class Map
 {
     public bool isWayPointMap = false;
     public float hWeight = 1.0f;
+    public bool useEuclidean = true;
 
     public int rows { get; protected set; }
     public int columns { get; protected set; }
@@ -222,6 +223,30 @@ public class Map
                 if (map[i,j] != null)
                 {
                     map[i, j].hWeight = hWeight;
+                }
+            }
+        }
+    }
+
+     /* Sets useEuclidean value for map and all of the nodes in the map. 
+      * If false is passed through, map and nodes will use Manhattan calcultaion.
+      * 
+      *    Takes: NONE
+      * Modifies: useEuclidean
+      *           map nodes' useEuclidean
+      *  Returns: NONE
+      *  Expects: Not currenty running an alogirthm.
+      */
+    public void SetUseEuclidean(bool _useEuclidean)
+    {
+        useEuclidean = _useEuclidean;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (map[i, j] != null)
+                {
+                    map[i, j].useEuclidean = useEuclidean;
                 }
             }
         }
