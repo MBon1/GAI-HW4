@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Map
 {
+    public bool isWayPointMap = false;
+    public float hWeight = 1.0f;
+
     public int rows { get; protected set; }
     public int columns { get; protected set; }
     public MapNode[,] map { get; protected set; }
@@ -51,19 +54,7 @@ public class Map
      */
     public void SetCell(int row, int col, MapNode node)
     {
-        if (map[row, col] != null)
-        {
-            MapNode mapNode = map[row, col];
-
-            foreach (Vector3Int tile in mapNode.tiles)
-            {
-                nodeByTile.Remove(tile);
-            }
-
-            nodeByPosition.Remove(mapNode.position);
-
-            nodeMapLookUp.Remove(node);
-        }
+        RemoveCell(row, col);
 
         map[row, col] = node;
 
@@ -75,6 +66,36 @@ public class Map
         nodeByPosition.Add(node.position, node);
 
         nodeMapLookUp.Add(node, new Vector2Int(row, col));
+    }
+
+    /* Remove a cell at the given row and column of the map.
+     * 
+     *    Takes: int
+     *           int
+     * Modifies: map
+     *           nodeByTile
+     *           nodeByPosition
+     *           nodeByMapLookUp
+     *  Returns: NONE
+     *  Expects: NONE
+     */
+    public void RemoveCell(int row, int col)
+    {
+        if (map[row, col] != null)
+        {
+            MapNode mapNode = map[row, col];
+
+            foreach (Vector3Int tile in mapNode.tiles)
+            {
+                nodeByTile.Remove(tile);
+            }
+
+            nodeByPosition.Remove(mapNode.position);
+
+            nodeMapLookUp.Remove(mapNode);
+
+            map[row, col] = null;
+        }
     }
 
     /* Returns the neighboring nodes of a requested node.
@@ -109,39 +130,129 @@ public class Map
     {
         List<MapNode> neighbors = new List<MapNode>();
 
-        if (row >= rows || row < 0 ||
-            col >= columns || col < 0)
+        if (!isWayPointMap)
         {
-            return neighbors;
-        }
+            if (row >= rows || row < 0 ||
+                col >= columns || col < 0)
+            {
+                return neighbors;
+            }
 
-        // Rows
-        int minRow = row - 1;
-        if (minRow >= 0)
-        {
-            neighbors.Add(map[minRow, col]);
-        }
+            // Rows
+            int minRow = row - 1;
+            if (minRow >= 0)
+            {
+                neighbors.Add(map[minRow, col]);
+            }
 
-        int maxRow = row + 1;
-        if (maxRow < rows)
-        {
-            neighbors.Add(map[maxRow, col]);
-        }
+            int maxRow = row + 1;
+            if (maxRow < rows)
+            {
+                neighbors.Add(map[maxRow, col]);
+            }
 
-        // Columns
-        int minCol = row - 1;
-        if (minCol >= 0)
-        {
-            neighbors.Add(map[row, minCol]);
-        }
+            // Columns
+            int minCol = row - 1;
+            if (minCol >= 0)
+            {
+                neighbors.Add(map[row, minCol]);
+            }
 
-        int maxCol = row + 1;
-        if (maxCol < columns)
+            int maxCol = row + 1;
+            if (maxCol < columns)
+            {
+                neighbors.Add(map[row, maxCol]);
+            }
+        }
+        else
         {
-            neighbors.Add(map[row, maxCol]);
+            foreach (MapNode node in nodeMapLookUp.Keys)
+            {
+                if (map[row, col] == node)
+                {
+                    continue;
+                }
+                // Do ray casting to determine neighbors
+                // If ray cast does NOT hit something, add node to neighbors 
+            }
         }
 
         return neighbors;
+    }
+
+    /* Sets h weight value for map and all of the nodes in the map.
+     * 
+     *    Takes: NONE
+     * Modifies: hWeight
+     *           map nodes' hWeight
+     *  Returns: NONE
+     *  Expects: Not currenty running an alogirthm.
+     */
+    public void SetNeighbors()
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (map[i, j] != null)
+                {
+                    map[i, j].neighbors = getNeighbors(i, j);
+                }
+            }
+        }
+    }
+
+
+    /* Sets h weight value for map and all of the nodes in the map.
+     * 
+     *    Takes: NONE
+     * Modifies: hWeight
+     *           map nodes' hWeight
+     *  Returns: NONE
+     *  Expects: Not currenty running an alogirthm.
+     */
+    public void SetHWeight(float _hWeight)
+    {
+        hWeight = _hWeight;
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (map[i,j] != null)
+                {
+                    map[i, j].hWeight = hWeight;
+                }
+            }
+        }
+    }
+
+    /* Removes all non way point nodes.
+     * 
+     *    Takes: NONE
+     * Modifies: map
+     *           nodeByTile
+     *           nodeByPosition
+     *           nodeByMapLookUp
+     *  Returns: NONE
+     *  Expects: NONE
+     */
+    public void RemoveNonWayPoints()
+    {
+        if (!isWayPointMap)
+        {
+            return;
+        }
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < columns; j++)
+            {
+                if (map[i, j] != null && !map[i, j].isWayPoint)
+                {
+                    RemoveCell(i, j);
+                }
+            }
+        }
     }
 
     public void ResetPathFinding()

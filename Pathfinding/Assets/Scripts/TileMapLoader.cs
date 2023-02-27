@@ -138,6 +138,9 @@ public class TileMapLoader : MonoBehaviour
                     //Debug.Log(line[j]);
                     Tile tile = tileKeyLookUp[line[j]].tile;
                     tileMap.SetTile(tilePos, tile);
+                    // If tile is not traversable, add to nontraversable tilemap
+                    if (tile != walkableTile.tile)
+                        nontraversableTileMap.SetTile(tilePos, tile);
                 }
                 else
                 {
@@ -154,9 +157,20 @@ public class TileMapLoader : MonoBehaviour
                 }
             }
         }
-
-        // Go through tilemap; check if traversable & if not and meets waypoint criteria, add those tiles to nontraversableTileMap and set node to waypoint
         
+        // If waypoint, determine which nodes are way points
+        if (map.isWayPointMap)
+        {
+            // ASSIGNMENT : SET WHICH NODES ARE WAY POINTS
+
+            // Remove all non-way-points
+            map.RemoveNonWayPoints();
+        }
+
+        // Set Neighbors
+        map.SetNeighbors();
+        map.SetHWeight(map.hWeight);
+
 
         mouseController.Reset();
     }

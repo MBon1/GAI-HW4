@@ -18,7 +18,9 @@ public class MapNode
     public float h { get; private set; } = int.MaxValue;  // Distance from end node
     public float f { get; private set; } = int.MaxValue;  // G cost + H cost
 
-    public Node parent = null;
+    public List<MapNode> neighbors;                       // List of neighboring nodes
+
+    public MapNode parent = null;
 
     private static Tilemap tilemap;
     private static Tile traversableTile;
