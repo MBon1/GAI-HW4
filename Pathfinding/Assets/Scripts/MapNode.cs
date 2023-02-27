@@ -12,6 +12,8 @@ public class MapNode
 
     public float hWeight = 1.0f;
 
+    public bool useEuclidean = true;
+
     public float g { get; private set; } = int.MaxValue;  // Distance from starting node
     public float h { get; private set; } = int.MaxValue;  // Distance from end node
     public float f { get; private set; } = int.MaxValue;  // G cost + H cost
@@ -93,7 +95,7 @@ public class MapNode
         position /= Mathf.Pow(tilesPerNode, 2);
     }
 
-    /* Sets the G, H, and F values of this node for path finding.
+    /* Sets the G, H, and F values of this node for path finding. Calculates using either Euclidean or Manhattan distance.
      * 
      *    Takes: Vector3Int (start position node of the path)
      *           Vector3Int (end position node of the path)
@@ -105,7 +107,14 @@ public class MapNode
      */
     public void SetGHF(Vector3Int startPosition, Vector3Int endPosition)
     {
-        SetGHF(Vector3.Distance(position, startPosition), Vector3.Distance(position, endPosition));
+        if (useEuclidean)
+        {
+            SetGHF(Vector3.Distance(position, startPosition), Vector3.Distance(position, endPosition));
+        }
+        else
+        {
+            SetGHF(ManhattanDistance(position, startPosition), ManhattanDistance(position, endPosition));
+        }
     }
 
     /* Sets the G, H, and F values of this node for path finding.
@@ -226,6 +235,19 @@ public class MapNode
             tilemap.SetTileFlags(tile, TileFlags.None);
             tilemap.SetColor(tile, color);
         }
+    }
+
+    /* Calculates the Manhattan distance between two points.
+     * 
+     *    Takes: Vector3 (point a)
+     *           Vector3 (point b)
+     * Modifies: NONE
+     *  Returns: float (Manhattan distance)
+     *  Expects: NONE
+     */
+    private float ManhattanDistance(Vector3 a, Vector3 b)
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
     }
 
     public enum TraverseColor
