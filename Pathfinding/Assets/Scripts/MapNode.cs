@@ -8,6 +8,10 @@ public class MapNode
     public List<Vector3Int> tiles { get; private set; } = new List<Vector3Int>();
     public Vector3 position { get; private set; } = Vector3.zero;
 
+    public bool isWayPoint = false;
+
+    public float hWeight = 1.0f;
+
     public float g { get; private set; } = int.MaxValue;  // Distance from starting node
     public float h { get; private set; } = int.MaxValue;  // Distance from end node
     public float f { get; private set; } = int.MaxValue;  // G cost + H cost
@@ -117,7 +121,7 @@ public class MapNode
     public void SetGHF(float _g, float _h)
     {
         g = _g;
-        h = _h;
+        h = _h * hWeight;
         SetF();
     }
 
