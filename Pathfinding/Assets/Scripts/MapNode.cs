@@ -196,13 +196,16 @@ public class MapNode
         {
             c = new Color(1, 0, 217f / 255f, 1);
         }
+        else if (color == TraverseColor.WayPoint)
+        {
+            c = new Color(152f / 255f, 0, 1, 1);
+        }
         else
         {
             c = Color.white;
         }
 
         SetNodeColor(c);
-
     }
 
     /* Changes the color of all tiles represented by this node.
@@ -227,6 +230,7 @@ public class MapNode
         Closed, 
         Start,
         End,
+        WayPoint, // For Way points
         None
     }
 }

@@ -11,6 +11,7 @@ public class TileMapLoader : MonoBehaviour
     public Maps mapFile = Maps.NONE;
 
     public Tilemap tileMap;
+    public Tilemap nontraversableTileMap;
 
     public TileData boundaryTile;
     public TileData unpassableTile;
@@ -124,6 +125,7 @@ public class TileMapLoader : MonoBehaviour
         map = new Map(columns, rows, tilesPerNode);
         tileMap.ClearAllTiles();
 
+        // Add new tiles
         for (int i = 0; i < rows; i++)
         {
             line = reader.ReadLine();
@@ -152,6 +154,9 @@ public class TileMapLoader : MonoBehaviour
                 }
             }
         }
+
+        // Go through tilemap; check if traversable & if not and meets waypoint criteria, add those tiles to nontraversableTileMap and set node to waypoint
+        
 
         mouseController.Reset();
     }

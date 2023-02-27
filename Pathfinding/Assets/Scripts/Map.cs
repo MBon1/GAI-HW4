@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Map
 {
-    public int rows { get; private set; }
-    public int columns { get; private set; }
-    public MapNode[,] map { get; private set; }
-    public Dictionary<Vector3Int, MapNode> nodeByTile { get; private set; } = new Dictionary<Vector3Int, MapNode>();
-    public Dictionary<Vector3, MapNode> nodeByPosition { get; private set; } = new Dictionary<Vector3, MapNode>();
-    public Dictionary<MapNode, Vector2Int> nodeMapLookUp { get; private set; } = new Dictionary<MapNode, Vector2Int>();
+    public int rows { get; protected set; }
+    public int columns { get; protected set; }
+    public MapNode[,] map { get; protected set; }
+    public Dictionary<Vector3Int, MapNode> nodeByTile { get; protected set; } = new Dictionary<Vector3Int, MapNode>();
+    public Dictionary<Vector3, MapNode> nodeByPosition { get; protected set; } = new Dictionary<Vector3, MapNode>();
+    public Dictionary<MapNode, Vector2Int> nodeMapLookUp { get; protected set; } = new Dictionary<MapNode, Vector2Int>();
 
     // Pathfinding Variables
-    public int tilesPerNode { get; private set; } = 1;
+    public int tilesPerNode { get; protected set; } = 1;
 
     /* Creates a Map.
      * 
