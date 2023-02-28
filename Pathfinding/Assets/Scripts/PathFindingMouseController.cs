@@ -35,7 +35,8 @@ public class PathFindingMouseController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Minus))
         {
-            Time.timeScale -= 1;
+            float timeScale = Time.timeScale - 1;
+            Time.timeScale = Mathf.Clamp(timeScale, 0, timeScale);
         }
 
         if (astar.isRunning)
