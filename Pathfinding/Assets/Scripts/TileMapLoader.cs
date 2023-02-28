@@ -10,6 +10,7 @@ public class TileMapLoader : MonoBehaviour
     public string mapFileName = "";
     public Maps mapFile = Maps.NONE;
     public bool isWayPointMap = false;
+    public bool useEuclidean = true;
 
     public Tilemap tileMap;
     public Tilemap nontraversableTileMap;
@@ -149,7 +150,7 @@ public class TileMapLoader : MonoBehaviour
                 }
 
                 MapNode node = new MapNode(tileMap, walkableTile.tile, map.tilesPerNode, tilePos);
-
+                node.useEuclidean = useEuclidean;
                 if (i % tilesPerNode == 0 && j % tilesPerNode == 0)
                 {
                     Vector2Int mapPos = new Vector2Int(Mathf.FloorToInt(i / (float)tilesPerNode), Mathf.FloorToInt(j / (float)tilesPerNode));

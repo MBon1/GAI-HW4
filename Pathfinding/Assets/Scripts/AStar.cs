@@ -15,6 +15,129 @@ public class AStar
         List<MapNode> closedList = new List<MapNode>();
 
         openList.Add(start);  // start.f is initialized to be 0.0f
+        start.SetGHF(0.0f, Vector3.Distance(start.position, goal.position));
+        while (openList.Count > 0)
+        {
+            MapNode q = openList[0];
+            float minF = openList[0].f;
+
+            foreach (MapNode node in openList)
+            {
+                float currF = node.f;
+
+                if (currF < minF)
+                {
+                    q = node;
+                    minF = currF;
+                }
+            }
+
+            openList.Remove(q);
+            closedList.Add(q);
+
+            if (q.Equals(goal))
+            {
+                q.SetNodeColor(MapNode.TraverseColor.Start); // should add color for path
+                while (q.parent != null)
+                {
+                    q.SetNodeColor(MapNode.TraverseColor.Start); // should add color path
+                    q = q.parent;
+                }
+                isRunning = false;
+
+                // COMPLETE (staplp2) : Draw final path
+
+                Debug.Log("PATH FOUND!");
+                yield break;
+            }
+
+            foreach (MapNode successor in map.getNeighbors(q))
+            {
+                if (!successor.IsTraversable() || closedList.Contains(successor)) // If the start / end position is on a non-traversable tile. Need to consider this.
+                {
+                    continue;
+                }
+
+                /*if (successor.Equals(start))
+                {
+                    continue;
+                }*/
+                float newG, newH;
+                if (successor.useEuclidean)
+                {
+                    newG = q.g + Mathf.Abs(Vector3.Distance(successor.position, q.position));
+                    newH = Mathf.Abs(Vector3.Distance(goal.position, successor.position));
+                }
+                else
+                {
+                    newG = q.g + Mathf.Abs(ManhattanDistance(successor.position, q.position));
+                    newH = Mathf.Abs(ManhattanDistance(goal.position, successor.position));
+                }
+                
+                float newF = newG + (newH * successor.hWeight);
+
+                //Vector3 succPos = successor.position;  // uhhh should this be a Vector3Int...?
+
+                //List<MapNode> bothLists = openList;
+                //bothLists.AddRange(closedList);
+
+                bool isSkippable = false;
+                if (openList.Contains(successor))
+                {
+                    foreach (MapNode node in openList)
+                    {
+                        if (node.Equals(successor) && (node.f < newF))
+                        {
+                            isSkippable = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!isSkippable)
+                {
+                    successor.SetGHF(newG, newH);
+                    if (!openList.Contains(successor))
+                    {
+                        openList.Add(successor);
+                    }
+                    successor.parent = q;
+                }
+            }
+
+            // COMPLETE (hungj2) : Update Node Colors
+
+            foreach (MapNode closedNode in closedList) {
+                closedNode.SetNodeColor(MapNode.TraverseColor.Closed);
+            }
+
+            foreach (MapNode openNode in openList) {
+                openNode.SetNodeColor(MapNode.TraverseColor.Open);
+            }
+
+            yield return new WaitForSeconds(waitTime);
+        }
+
+        isRunning = false;
+
+        Debug.Log("NO PATH FOUND!");
+    }
+
+
+    private float ManhattanDistance(Vector3 a, Vector3 b)
+    {
+        return Mathf.Abs(a.x - b.x) + Mathf.Abs(a.y - b.y);
+    }
+
+    //Justin's latest updated implementation
+    /*public IEnumerator AStarCoroutine(Map map, MapNode start, MapNode goal, float waitTime = 0.5f)
+    {
+        isRunning = true;
+
+        List<MapNode> openList = new List<MapNode>();
+        List<MapNode> closedList = new List<MapNode>();
+
+        openList.Add(start);  // start.f is initialized to be 0.0f
 
         while (openList.Count > 0)
         {
@@ -41,19 +164,19 @@ public class AStar
                     continue;
                 }
 
-                /*if (successor.Equals(start))
+                *//*if (successor.Equals(start))
                 {
                     continue;
-                }*/
+                }*//*
 
                 if (successor.Equals(goal))
                 {
                     successor.SetNodeColor(MapNode.TraverseColor.Start); // should add color for path
-                    /*while (q.parent != null)
+                    *//*while (q.parent != null)
                     {
                         q.SetNodeColor(MapNode.TraverseColor.Start); // should add color path
                         q = q.parent;
-                    }*/
+                    }*//*
                     isRunning = false;
 
                     // COMPLETE (staplp2) : Draw final path
@@ -94,11 +217,13 @@ public class AStar
 
             // COMPLETE (hungj2) : Update Node Colors
 
-            foreach (MapNode closedNode in closedList) {
+            foreach (MapNode closedNode in closedList)
+            {
                 closedNode.SetNodeColor(MapNode.TraverseColor.Closed);
             }
 
-            foreach (MapNode openNode in openList) {
+            foreach (MapNode openNode in openList)
+            {
                 openNode.SetNodeColor(MapNode.TraverseColor.Open);
             }
 
@@ -108,7 +233,7 @@ public class AStar
         isRunning = false;
 
         Debug.Log("NO PATH FOUND!");
-    }
+    }*/
 
 
     /*public List<MapNode> AStarAlgorithm(Map map, MapNode start, MapNode goal)
