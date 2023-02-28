@@ -45,6 +45,9 @@ public class PathFindingMouseController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))    // Set Start Position
         {
+            // Reset pathfinding values in map
+            mapLoader.map.ResetPathFinding();
+
             if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
             {
                 startPosition = pos;
