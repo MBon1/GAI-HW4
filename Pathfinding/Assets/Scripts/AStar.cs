@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AStar : MonoBehaviour
+public class AStar
 {
     public bool isRunning { get; private set; } = false;
 
@@ -36,33 +36,46 @@ public class AStar : MonoBehaviour
 
             foreach (MapNode successor in map.getNeighbors(q))
             {
+                if (!successor.IsTraversable()) // If the start / end position is on a non-traversable tile. Need to consider this.
+                {
+                    continue;
+                }
+
+                /*if (successor.Equals(start))
+                {
+                    continue;
+                }*/
+
                 if (successor.Equals(goal))
                 {
                     successor.SetNodeColor(MapNode.TraverseColor.Start); // should add color for path
-                    while (q.parent != null)
+                    /*while (q.parent != null)
                     {
                         q.SetNodeColor(MapNode.TraverseColor.Start); // should add color path
                         q = q.parent;
-                    }
+                    }*/
                     isRunning = false;
+
+                    // COMPLETE (staplp2) : Draw final path
+
+                    Debug.Log("PATH FOUND!");
                     yield break;
                 }
 
                 float newG = q.g + Mathf.Abs(Vector3.Distance(successor.position, q.position));
                 float newH = Mathf.Abs(Vector3.Distance(goal.position, successor.position));
-
-                successor.SetGHF(newG, newH);
+                float newF = newG + newH;
 
                 Vector3 succPos = successor.position;  // uhhh should this be a Vector3Int...?
 
                 List<MapNode> bothLists = openList;
-                bothLists.AddRange(closedList);
+                //bothLists.AddRange(closedList);
 
                 bool isSkippable = false;
 
                 foreach (MapNode node in bothLists)
                 {
-                    if (node.position.Equals(succPos) && (node.f < successor.f))
+                    if (node.position.Equals(succPos) && (node.f < newF))
                     {
                         isSkippable = true;
                         break;
@@ -71,6 +84,7 @@ public class AStar : MonoBehaviour
 
                 if (!isSkippable)
                 {
+                    successor.SetGHF(newG, newH);
                     openList.Add(successor);
                     successor.parent = q;
                 }
@@ -93,7 +107,7 @@ public class AStar : MonoBehaviour
 
         isRunning = false;
 
-        // COMPLETE (staplp2) : Draw final path
+        Debug.Log("NO PATH FOUND!");
     }
 
 

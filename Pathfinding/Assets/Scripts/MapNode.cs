@@ -197,23 +197,23 @@ public class MapNode
 
         if (color == TraverseColor.Open)
         {
-            c = new Color(0, 110f / 255f, 1, 1);
+            c = new Color(0, 110f / 255f, 1, 1);    // Blue
         }
         else if (color == TraverseColor.Closed)
         {
-            c = new Color(1, 12f / 255f, 0, 1);
+            c = new Color(1, 12f / 255f, 0, 1);     // Red
         }
         else if (color == TraverseColor.Start)
         {
-            c = new Color(1, 229f / 255f, 0, 1);
+            c = new Color(1, 229f / 255f, 0, 1);    // Yellow
         }
         else if (color == TraverseColor.End)
         {
-            c = new Color(1, 0, 217f / 255f, 1);
+            c = new Color(1, 0, 217f / 255f, 1);    // Magenta
         }
         else if (color == TraverseColor.WayPoint)
         {
-            c = new Color(152f / 255f, 0, 1, 1);
+            c = new Color(152f / 255f, 0, 1, 1);    // Purple
         }
         else
         {

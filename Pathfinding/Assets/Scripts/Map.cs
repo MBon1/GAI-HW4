@@ -153,26 +153,26 @@ public class Map
 
             // Rows
             int minRow = row - 1;
-            if (minRow >= 0)
+            if (minRow >= 0 && minRow < row)
             {
                 neighbors.Add(map[minRow, col]);
             }
 
             int maxRow = row + 1;
-            if (maxRow < rows)
+            if (maxRow >= 0 && maxRow < rows)
             {
                 neighbors.Add(map[maxRow, col]);
             }
 
             // Columns
-            int minCol = row - 1;
-            if (minCol >= 0)
+            int minCol = col - 1;
+            if (minCol >= 0 && minCol < col)
             {
                 neighbors.Add(map[row, minCol]);
             }
 
-            int maxCol = row + 1;
-            if (maxCol < columns)
+            int maxCol = col + 1;
+            if (maxCol >= 0 && maxCol < columns)
             {
                 neighbors.Add(map[row, maxCol]);
             }
