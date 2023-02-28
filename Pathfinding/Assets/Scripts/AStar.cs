@@ -73,6 +73,14 @@ public class AStar : MonoBehaviour
 
             // ASSIGNMENT : Update Node Colors
 
+            foreach (MapNode closedNode in closedList) {
+                closedNode.SetNodeColor(MapNode.TraverseColor.Closed);
+            }
+
+            foreach (MapNode openNode in openList) {
+                openNode.SetNodeColor(MapNode.TraverseColor.Open);
+            }
+
             yield return new WaitForSeconds(waitTime);
         }
 
