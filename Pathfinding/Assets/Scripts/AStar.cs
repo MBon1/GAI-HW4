@@ -78,7 +78,7 @@ public class AStar : MonoBehaviour
 
         isRunning = false;
 
-        // Draw final path
+        // ASSIGNMENT : Draw final path
     }
 
 
@@ -166,7 +166,7 @@ public class AStar : MonoBehaviour
     //     {
     //         // TO DO: FILL OUT
     //     }
-        
+
     //     return distance;
     // }
 
