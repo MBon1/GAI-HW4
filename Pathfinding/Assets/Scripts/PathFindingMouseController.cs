@@ -17,6 +17,8 @@ public class PathFindingMouseController : MonoBehaviour
 
     AStar astar = new AStar();
 
+    bool setStart = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,73 +45,81 @@ public class PathFindingMouseController : MonoBehaviour
 
         Vector3Int pos = GetTilePosition();
 
-        if (Input.GetMouseButtonDown(0))    // Set Start Position
+        if (Input.GetMouseButtonDown(0))
         {
-            // Reset pathfinding values in map
-            mapLoader.map.ResetPathFinding();
-
-            if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
+            // Set Start Position
+            if (setStart)
             {
-                startPosition = pos;
+                // Reset pathfinding values in map
+                mapLoader.map.ResetPathFinding();
 
-                if (startNode != null)
+                if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
                 {
-                    if (startNode.isWayPoint)
-                    {
-                        startNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
-                    }
-                    else
-                    {
-                        startNode.SetNodeColor(MapNode.TraverseColor.None);
-                        mapLoader.map.wayPoints.Remove(startNode);
-                    }
-                }
+                    startPosition = pos;
 
-                startNode = mapLoader.map.nodeByTile[startPosition];
-                
-                startNode.SetNodeColor(MapNode.TraverseColor.Start);
+                    if (startNode != null)
+                    {
+                        if (startNode.isWayPoint)
+                        {
+                            startNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                        }
+                        else
+                        {
+                            startNode.SetNodeColor(MapNode.TraverseColor.None);
+                            mapLoader.map.wayPoints.Remove(startNode);
+                        }
+                    }
 
-                // If we're using waypoints, redetermine all way point neighbors
-                if (mapLoader.map.isWayPointMap)
-                {
-                    mapLoader.map.SetNeighbors();
+                    setStart = false;
+
+                    startNode = mapLoader.map.nodeByTile[startPosition];
+
+                    startNode.SetNodeColor(MapNode.TraverseColor.Start);
+
+                    // If we're using waypoints, redetermine all way point neighbors
+                    if (mapLoader.map.isWayPointMap)
+                    {
+                        mapLoader.map.SetNeighbors();
+                    }
                 }
             }
-        } 
-        else if (Input.GetMouseButtonDown(1))     // Set End Position
-        {
-            if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
+            // Set End Position
+            else
             {
-                endPosition = pos;
-
-                if (endNode != null)
+                if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
                 {
-                    if (endNode.isWayPoint)
+                    endPosition = pos;
+
+                    if (endNode != null)
                     {
-                        endNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                        if (endNode.isWayPoint)
+                        {
+                            endNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                        }
+                        else
+                        {
+                            endNode.SetNodeColor(MapNode.TraverseColor.None);
+                            mapLoader.map.wayPoints.Remove(endNode);
+                        }
                     }
-                    else
+
+                    setStart = true;
+
+                    endNode = mapLoader.map.nodeByTile[endPosition];
+                    endNode.SetNodeColor(MapNode.TraverseColor.End);
+
+                    // If we're using waypoints, redetermine all way point neighbors
+                    // If we're using waypoints, redetermine all way point neighbors
+                    if (mapLoader.map.isWayPointMap)
                     {
-                        endNode.SetNodeColor(MapNode.TraverseColor.None);
-                        mapLoader.map.wayPoints.Remove(endNode);
+                        mapLoader.map.SetNeighbors();
                     }
+
+                    // Perform A*
+                    StartCoroutine(astar.AStarCoroutine(mapLoader.map, startNode, endNode));
                 }
-
-                endNode = mapLoader.map.nodeByTile[endPosition];
-                endNode.SetNodeColor(MapNode.TraverseColor.End);
-
-                // If we're using waypoints, redetermine all way point neighbors
-                // If we're using waypoints, redetermine all way point neighbors
-                if (mapLoader.map.isWayPointMap)
-                {
-                    mapLoader.map.SetNeighbors();
-                }
-
-                // Perform A*
-                StartCoroutine(astar.AStarCoroutine(mapLoader.map, startNode, endNode));
             }
         }
-
     }
 
     Vector3Int GetTilePosition()
