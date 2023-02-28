@@ -38,6 +38,12 @@ public class AStar : MonoBehaviour
             {
                 if (successor.Equals(goal))
                 {
+                    successor.SetNodeColor(MapNode.TraverseColor.Start); // should add color for path
+                    while (q.parent != null)
+                    {
+                        q.SetNodeColor(MapNode.TraverseColor.Start); // should add color path
+                        q = q.parent;
+                    }
                     isRunning = false;
                     yield break;
                 }
@@ -66,6 +72,7 @@ public class AStar : MonoBehaviour
                 if (!isSkippable)
                 {
                     openList.Add(successor);
+                    successor.parent = q;
                 }
             }
 
@@ -86,7 +93,7 @@ public class AStar : MonoBehaviour
 
         isRunning = false;
 
-        // ASSIGNMENT : Draw final path
+        // COMPLETE (staplp2) : Draw final path
     }
 
 
