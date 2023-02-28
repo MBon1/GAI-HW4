@@ -16,7 +16,9 @@ public class AStar
 
         openList.Add(start);  // start.f is initialized to be 0.0f
         start.SetGHF(0.0f, Vector3.Distance(start.position, goal.position));
-        while (openList.Count > 0)
+
+        // Check if there are open lists and if the start and end nodes are traversable
+        while (openList.Count > 0 && start.IsTraversable() && goal.IsTraversable())
         {
             MapNode q = openList[0];
             float minF = openList[0].f;
