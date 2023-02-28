@@ -161,10 +161,41 @@ public class TileMapLoader : MonoBehaviour
         // If waypoint, determine which nodes are way points
         if (map.isWayPointMap)
         {
-            // ASSIGNMENT : SET WHICH NODES ARE WAY POINTS
+            // COMPLETE (hungj2) : SET WHICH NODES ARE WAY POINTS
 
             // If a node is a waypoint, set map node to way point color
             // mapNode.SetNodeColor(TraverseColor.WayPoint);
+
+            for (int r = 1; r < this.map.rows - 1; r++)
+            {
+                for (int c = 1; r < this.map.columns - 1; c++)
+                {
+                    MapNode curr = this.map.map[r, c];
+
+                    MapNode e = this.map.map[r + 1, c];
+                    MapNode ne = this.map.map[r + 1, c - 1];
+                    MapNode n = this.map.map[r, c - 1];
+                    MapNode nw = this.map.map[r - 1, c - 1];
+                    MapNode w = this.map.map[r - 1, c];
+                    MapNode sw = this.map.map[r - 1, c + 1];
+                    MapNode s = this.map.map[r, c + 1];
+                    MapNode se = this.map.map[r + 1, c + 1];
+
+                    if ((!ne.IsTraversable() && n.IsTraversable() && e.IsTraversable())
+                        || (!nw.IsTraversable() && n.IsTraversable() && w.IsTraversable())
+                        || (!sw.IsTraversable() && s.IsTraversable() && w.IsTraversable())
+                        || (!se.IsTraversable() && s.IsTraversable() && e.IsTraversable()))
+                    {
+                        curr.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                        curr.isWayPoint = true;
+                    }
+                    else
+                    {
+                        // No need to set the color of a tile that's going to get nuked...
+                        curr.isWayPoint = false;
+                    }
+                }
+            }
 
             // Remove all non-way-points
             map.RemoveNonWayPoints();
