@@ -43,8 +43,13 @@ public class AStar : MonoBehaviour
             {
                 if (successor.Equals(goal))
                 {
-                    successor.SetGHF(q.g, q.h);
+                    return closedList;
                 }
+
+                float newG = q.g + Mathf.Abs(Vector3.Distance(successor.position, q.position));
+                float newH = Mathf.Abs(Vector3.Distance(goal.position, successor.position));
+
+                successor.SetGHF(newG, newH);
 
                 Vector3 succPos = successor.position;  // uhhh should this be a Vector3Int...?
 
