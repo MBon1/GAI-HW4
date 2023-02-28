@@ -37,8 +37,8 @@ public class AStar
 
             if (q.Equals(goal))
             {
-                q.SetNodeColor(MapNode.TraverseColor.Start); // should add color for path
-                while (q.parent != null)
+                //q.SetNodeColor(MapNode.TraverseColor.Start); // should add color for path
+                while (q != null)
                 {
                     q.SetNodeColor(MapNode.TraverseColor.Start); // should add color path
                     q = q.parent;
