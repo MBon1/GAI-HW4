@@ -26,11 +26,7 @@ public class PathFindingMouseController : MonoBehaviour
     {
         Vector3Int pos = GetTilePosition();
 
-        if (Input.GetKeyDown(KeyCode.KeypadEnter))  // Perform A*
-        {
-
-        }
-        else if (Input.GetMouseButtonDown(0))    // Set Start Position
+        if (Input.GetMouseButtonDown(0))    // Set Start Position
         {
             if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
             {
@@ -88,6 +84,8 @@ public class PathFindingMouseController : MonoBehaviour
                 {
                     mapLoader.map.SetNeighbors();
                 }
+
+                // Perform A*
             }
         }
 
