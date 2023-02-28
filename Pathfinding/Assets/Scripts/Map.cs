@@ -174,8 +174,23 @@ public class Map
                     continue;
                 }
 
-                // ASSIGNMENT : Do ray casting to determine neighbors
-                // If ray cast does NOT hit something, add node to neighbors 
+                // COMPLETE (hungj2) : Do ray casting to determine neighbors
+                // If ray cast does NOT hit something, add node to neighbors
+
+                MapNode candidate = map[row, col];
+
+                Vector3 posA = node.position;
+                Vector3 posB = candidate.position;
+
+                Vector2 direction = new Vector2(posB.x - posA.x, posB.y - posA.y);
+                float distance = Mathf.Abs(Vector3.Distance(posA, posB));
+
+                RaycastHit2D hit = Physics2D.Raycast(posA, direction, distance);
+
+                if (hit.collider == null)
+                {
+                    neighbors.Add(candidate);
+                }
             }
         }
 
