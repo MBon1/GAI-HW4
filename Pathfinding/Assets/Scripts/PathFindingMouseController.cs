@@ -38,11 +38,26 @@ public class PathFindingMouseController : MonoBehaviour
 
                 if (startNode != null)
                 {
-                    startNode.SetNodeColor(MapNode.TraverseColor.None);
+                    if (startNode.isWayPoint)
+                    {
+                        startNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                    }
+                    else
+                    {
+                        startNode.SetNodeColor(MapNode.TraverseColor.None);
+                        mapLoader.map.wayPoints.Remove(startNode);
+                    }
                 }
 
                 startNode = mapLoader.map.nodeByTile[startPosition];
+                
                 startNode.SetNodeColor(MapNode.TraverseColor.Start);
+
+                // If we're using waypoints, redetermine all way point neighbors
+                if (mapLoader.map.isWayPointMap)
+                {
+                    mapLoader.map.SetNeighbors();
+                }
             }
         } 
         else if (Input.GetMouseButtonDown(1))     // Set End Position
@@ -53,11 +68,26 @@ public class PathFindingMouseController : MonoBehaviour
 
                 if (endNode != null)
                 {
-                    endNode.SetNodeColor(MapNode.TraverseColor.None);
+                    if (endNode.isWayPoint)
+                    {
+                        endNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                    }
+                    else
+                    {
+                        endNode.SetNodeColor(MapNode.TraverseColor.None);
+                        mapLoader.map.wayPoints.Remove(endNode);
+                    }
                 }
 
                 endNode = mapLoader.map.nodeByTile[endPosition];
                 endNode.SetNodeColor(MapNode.TraverseColor.End);
+
+                // If we're using waypoints, redetermine all way point neighbors
+                // If we're using waypoints, redetermine all way point neighbors
+                if (mapLoader.map.isWayPointMap)
+                {
+                    mapLoader.map.SetNeighbors();
+                }
             }
         }
 

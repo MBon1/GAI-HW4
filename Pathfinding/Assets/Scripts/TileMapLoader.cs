@@ -9,6 +9,7 @@ public class TileMapLoader : MonoBehaviour
 {
     public string mapFileName = "";
     public Maps mapFile = Maps.NONE;
+    public bool isWayPointMap = false;
 
     public Tilemap tileMap;
     public Tilemap nontraversableTileMap;
@@ -122,7 +123,7 @@ public class TileMapLoader : MonoBehaviour
         }
 
         // Reset Maps
-        map = new Map(columns, rows, tilesPerNode);
+        map = new Map(columns, rows, tilesPerNode, isWayPointMap);
         tileMap.ClearAllTiles();
 
         // Add new tiles
@@ -168,9 +169,14 @@ public class TileMapLoader : MonoBehaviour
 
             for (int r = 1; r < this.map.rows - 1; r++)
             {
-                for (int c = 1; r < this.map.columns - 1; c++)
+                for (int c = 1; c < this.map.columns - 1; c++)
                 {
                     MapNode curr = this.map.map[r, c];
+
+                    if (!curr.IsTraversable())
+                    {
+                        continue;
+                    }
 
                     MapNode e = this.map.map[r + 1, c];
                     MapNode ne = this.map.map[r + 1, c - 1];
@@ -198,7 +204,7 @@ public class TileMapLoader : MonoBehaviour
             }
 
             // Remove all non-way-points
-            map.RemoveNonWayPoints();
+            //map.RemoveNonWayPoints();
         }
 
         // Set Neighbors

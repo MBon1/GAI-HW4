@@ -14,6 +14,7 @@ public class Map
     public Dictionary<Vector3Int, MapNode> nodeByTile { get; protected set; } = new Dictionary<Vector3Int, MapNode>();
     public Dictionary<Vector3, MapNode> nodeByPosition { get; protected set; } = new Dictionary<Vector3, MapNode>();
     public Dictionary<MapNode, Vector2Int> nodeMapLookUp { get; protected set; } = new Dictionary<MapNode, Vector2Int>();
+    public List<MapNode> wayPoints = new List<MapNode>();
 
     // Pathfinding Variables
     public int tilesPerNode { get; protected set; } = 1;
@@ -30,7 +31,7 @@ public class Map
      *  Returns: Map
      *  Expects: NONE
      */
-    public Map(int width, int height, int _tilesPerNode)
+    public Map(int width, int height, int _tilesPerNode, bool useWayPoints)
     {
         rows = (int)Mathf.Ceil((float)height / _tilesPerNode);
         columns = (int)Mathf.Ceil((float)width / _tilesPerNode);
@@ -38,6 +39,8 @@ public class Map
         map = new MapNode[rows, columns];
 
         tilesPerNode = _tilesPerNode;
+
+        isWayPointMap = useWayPoints;
     }
 
     /* Set a cell at the given row and column of the map with the given node.
@@ -67,6 +70,11 @@ public class Map
         nodeByPosition.Add(node.position, node);
 
         nodeMapLookUp.Add(node, new Vector2Int(row, col));
+
+        if (node.isWayPoint)
+        {
+            wayPoints.Add(node);
+        }
     }
 
     /* Remove a cell at the given row and column of the map.
@@ -96,6 +104,11 @@ public class Map
             nodeMapLookUp.Remove(mapNode);
 
             map[row, col] = null;
+
+            if (mapNode.isWayPoint)
+            {
+                wayPoints.Remove(mapNode);
+            }
         }
     }
 
@@ -167,7 +180,7 @@ public class Map
         }
         else
         {
-            foreach (MapNode node in nodeMapLookUp.Keys)
+            foreach (MapNode node in wayPoints)
             {
                 if (map[row, col] == node)
                 {
