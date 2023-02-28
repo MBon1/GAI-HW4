@@ -127,8 +127,7 @@ public class Map
             return new List<MapNode>();
         }
 
-        Vector2Int posInMap = nodeMapLookUp[node];
-        return getNeighbors(posInMap.x, posInMap.y);
+        return node.neighbors;
     }
 
     /* Returns the neighboring nodes of a requested cell.

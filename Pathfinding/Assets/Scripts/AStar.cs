@@ -4,17 +4,85 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+    public bool isRunning { get; private set; } = false;
 
 
+    public IEnumerator AStarCoroutine(Map map, MapNode start, MapNode goal, float waitTime = 0.5f)
+    {
+        isRunning = true;
+
+        List<MapNode> openList = new List<MapNode>();
+        List<MapNode> closedList = new List<MapNode>();
+
+        openList.Add(start);  // start.f is initialized to be 0.0f
+
+        while (openList.Count > 0)
+        {
+            MapNode q = openList[0];
+            float minF = openList[0].f;
+
+            foreach (MapNode node in openList)
+            {
+                float currF = node.f;
+
+                if (currF < minF)
+                {
+                    q = node;
+                    minF = currF;
+                }
+            }
+
+            openList.Remove(q);
+
+            foreach (MapNode successor in map.getNeighbors(q))
+            {
+                if (successor.Equals(goal))
+                {
+                    isRunning = false;
+                    yield break;
+                }
+
+                float newG = q.g + Mathf.Abs(Vector3.Distance(successor.position, q.position));
+                float newH = Mathf.Abs(Vector3.Distance(goal.position, successor.position));
+
+                successor.SetGHF(newG, newH);
+
+                Vector3 succPos = successor.position;  // uhhh should this be a Vector3Int...?
+
+                List<MapNode> bothLists = openList;
+                bothLists.AddRange(closedList);
+
+                bool isSkippable = false;
+
+                foreach (MapNode node in bothLists)
+                {
+                    if (node.position.Equals(succPos) && (node.f < successor.f))
+                    {
+                        isSkippable = true;
+                        break;
+                    }
+                }
+
+                if (!isSkippable)
+                {
+                    openList.Add(successor);
+                }
+            }
+
+            closedList.Add(q);
+
+            // ASSIGNMENT : Update Node Colors
+
+            yield return new WaitForSeconds(waitTime);
+        }
+
+        isRunning = false;
+
+        // Draw final path
+    }
 
 
-
-    public List<MapNode> AStarAlgorithm(Map map, MapNode start, MapNode goal)
+    /*public List<MapNode> AStarAlgorithm(Map map, MapNode start, MapNode goal)
     {
         List<MapNode> openList = new List<MapNode>();
         List<MapNode> closedList = new List<MapNode>();
@@ -77,7 +145,7 @@ public class AStar : MonoBehaviour
         }
 
         return closedList;
-    }
+    }*/
 
 
 

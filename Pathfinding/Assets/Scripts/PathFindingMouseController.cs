@@ -15,6 +15,8 @@ public class PathFindingMouseController : MonoBehaviour
     [SerializeField] Vector3Int endPosition = new Vector3Int();
     MapNode endNode = null;
 
+    AStar astar = new AStar();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,11 @@ public class PathFindingMouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (astar.isRunning)
+        {
+            return;
+        }
+
         Vector3Int pos = GetTilePosition();
 
         if (Input.GetMouseButtonDown(0))    // Set Start Position
@@ -86,6 +93,7 @@ public class PathFindingMouseController : MonoBehaviour
                 }
 
                 // Perform A*
+                StartCoroutine(astar.AStarCoroutine(mapLoader.map, startNode, endNode));
             }
         }
 
