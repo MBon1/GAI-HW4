@@ -71,7 +71,7 @@ public class AStar : MonoBehaviour
 
             closedList.Add(q);
 
-            // ASSIGNMENT : Update Node Colors
+            // COMPLETE (hungj2) : Update Node Colors
 
             foreach (MapNode closedNode in closedList) {
                 closedNode.SetNodeColor(MapNode.TraverseColor.Closed);
