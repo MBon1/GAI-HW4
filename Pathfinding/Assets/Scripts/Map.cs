@@ -233,8 +233,11 @@ public class Map
                 // Do ray casting to determine neighbors
                 // If ray cast does NOT hit something, add node to neighbors
 
-                Vector3 posA = current.position;
-                Vector3 posB = candidate.position;
+                float nodeOffset = tilesPerNode / 2.0f;
+                Vector3 offset = new Vector3(nodeOffset, -nodeOffset, 0);
+
+                Vector3 posA = new Vector3(current.position.y, current.position.x * -1, current.position.z) + offset;
+                Vector3 posB = new Vector3(candidate.position.y, candidate.position.x * -1, candidate.position.z) + offset; 
 
                 Vector2 direction = new Vector2((posB.x - posA.x), (posB.y - posA.y));
                 float distance = Vector3.Distance(posA, posB);
@@ -244,6 +247,7 @@ public class Map
                 if (hit.collider == null)
                 {
                     neighbors.Add(candidate);
+                    Debug.DrawRay(posA, direction, Color.red, 1);
                 }
             }
         }
@@ -296,6 +300,7 @@ public class Map
     public void SetHWeight(float _hWeight)
     {
         hWeight = _hWeight;
+        Debug.Log("New H Weight: " + hWeight);
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < columns; j++)
