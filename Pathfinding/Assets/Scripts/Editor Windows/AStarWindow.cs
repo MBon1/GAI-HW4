@@ -7,9 +7,12 @@ using UnityEngine.Tilemaps;
 public class AStarWindow : EditorWindow
 {
     [SerializeField] Text pos;
+
     [SerializeField] LabelledValue g;
     [SerializeField] LabelledValue h;
     [SerializeField] LabelledValue f;
+
+    [SerializeField] LabelledValue timeScale;
 
     [SerializeField] NumericInputField hWeight;
 
@@ -26,9 +29,13 @@ public class AStarWindow : EditorWindow
 
     protected override void SetAllWidgetsActiveness(bool active)
     {
+        pos.gameObject.SetActive(active);
+
         g.gameObject.SetActive(active);
         h.gameObject.SetActive(active);
         f.gameObject.SetActive(active);
+
+        timeScale.gameObject.SetActive(active);
 
         hWeight.gameObject.transform.parent.parent.gameObject.SetActive(active);
     }
@@ -56,27 +63,23 @@ public class AStarWindow : EditorWindow
         {
             pos.text = "(" + position.x + " , " + position.y + ")";
             MapNode node = mapLoader.map.map[position.x, position.y];
-            g.SetValue(node.g, true);
-            h.SetValue(node.h, true);
-            f.SetValue(node.f, true);
+            g.SetValue(node.g, true, "---", (node.g >= int.MaxValue));
+            h.SetValue(node.h, true, "---", (node.h >= int.MaxValue));
+            f.SetValue(node.f, true, "---", (node.f >= int.MaxValue));
         }
         else
         {
             pos.text = "???";
-            g.SetValue(0, true);
-            h.SetValue(0, true);
-            f.SetValue(0, true);
+            g.SetValue(0, true, "---", true);
+            h.SetValue(0, true, "---", true);
+            f.SetValue(0, true, "---", true);
         }
 
         if (mapLoader.map != null)
         {
             hWeight.SetValue(mapLoader.map.hWeight, false);
         }
-    }
 
-    public new void ToggleWindowSize()
-    {
-        pos.gameObject.SetActive(this.gameObject.GetComponent<RectTransform>().rect.height == collapseHeight);
-        base.ToggleWindowSize();
+        timeScale.SetValue(Time.timeScale, true);
     }
 }

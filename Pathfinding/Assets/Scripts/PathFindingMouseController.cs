@@ -31,7 +31,6 @@ public class PathFindingMouseController : MonoBehaviour
     void Update()
     {
         Vector3Int pos = GetTilePosition();
-        aStarEditor.SetTargetPosition(pos);
 
         if (Input.GetKeyDown(KeyCode.Equals))
         {
@@ -44,86 +43,86 @@ public class PathFindingMouseController : MonoBehaviour
             Time.timeScale = Mathf.Clamp(timeScale, 0, timeScale);
         }
 
-        if (astar.isRunning)
+        if (!astar.isRunning)
         {
-            return;
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            // Set Start Position
-            if (setStart)
+            if (Input.GetMouseButtonDown(1))
             {
-                // Reset pathfinding values in map
-                mapLoader.map.ResetPathFinding();
-
-                if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
+                // Set Start Position
+                if (setStart)
                 {
-                    startPosition = pos;
+                    // Reset pathfinding values in map
+                    mapLoader.map.ResetPathFinding();
 
-                    if (startNode != null)
+                    if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
                     {
-                        if (startNode.isWayPoint)
+                        startPosition = pos;
+
+                        if (startNode != null)
                         {
-                            startNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                            if (startNode.isWayPoint)
+                            {
+                                startNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                            }
+                            else
+                            {
+                                startNode.SetNodeColor(MapNode.TraverseColor.None);
+                                mapLoader.map.wayPoints.Remove(startNode);
+                            }
                         }
-                        else
+
+                        setStart = false;
+
+                        startNode = mapLoader.map.nodeByTile[startPosition];
+
+                        startNode.SetNodeColor(MapNode.TraverseColor.Start);
+
+                        // If we're using waypoints, redetermine all way point neighbors
+                        if (mapLoader.map.isWayPointMap)
                         {
-                            startNode.SetNodeColor(MapNode.TraverseColor.None);
-                            mapLoader.map.wayPoints.Remove(startNode);
+                            mapLoader.map.SetNeighbors();
                         }
                     }
-
-                    setStart = false;
-
-                    startNode = mapLoader.map.nodeByTile[startPosition];
-
-                    startNode.SetNodeColor(MapNode.TraverseColor.Start);
-
-                    // If we're using waypoints, redetermine all way point neighbors
-                    if (mapLoader.map.isWayPointMap)
+                }
+                // Set End Position
+                else
+                {
+                    if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
                     {
-                        mapLoader.map.SetNeighbors();
+                        endPosition = pos;
+
+                        if (endNode != null)
+                        {
+                            if (endNode.isWayPoint)
+                            {
+                                endNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
+                            }
+                            else
+                            {
+                                endNode.SetNodeColor(MapNode.TraverseColor.None);
+                                mapLoader.map.wayPoints.Remove(endNode);
+                            }
+                        }
+
+                        setStart = true;
+
+                        endNode = mapLoader.map.nodeByTile[endPosition];
+                        endNode.SetNodeColor(MapNode.TraverseColor.End);
+
+                        // If we're using waypoints, redetermine all way point neighbors
+                        // If we're using waypoints, redetermine all way point neighbors
+                        if (mapLoader.map.isWayPointMap)
+                        {
+                            mapLoader.map.SetNeighbors();
+                        }
+
+                        // Perform A*
+                        StartCoroutine(astar.AStarCoroutine(mapLoader.map, startNode, endNode));
                     }
                 }
             }
-            // Set End Position
-            else
-            {
-                if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
-                {
-                    endPosition = pos;
-
-                    if (endNode != null)
-                    {
-                        if (endNode.isWayPoint)
-                        {
-                            endNode.SetNodeColor(MapNode.TraverseColor.WayPoint);
-                        }
-                        else
-                        {
-                            endNode.SetNodeColor(MapNode.TraverseColor.None);
-                            mapLoader.map.wayPoints.Remove(endNode);
-                        }
-                    }
-
-                    setStart = true;
-
-                    endNode = mapLoader.map.nodeByTile[endPosition];
-                    endNode.SetNodeColor(MapNode.TraverseColor.End);
-
-                    // If we're using waypoints, redetermine all way point neighbors
-                    // If we're using waypoints, redetermine all way point neighbors
-                    if (mapLoader.map.isWayPointMap)
-                    {
-                        mapLoader.map.SetNeighbors();
-                    }
-
-                    // Perform A*
-                    StartCoroutine(astar.AStarCoroutine(mapLoader.map, startNode, endNode));
-                }
-            }
         }
+
+        aStarEditor.SetTargetPosition(pos);
     }
 
     Vector3Int GetTilePosition()

@@ -24,5 +24,13 @@ public class LabelledValue : EditorWidget
         valeText.text = value.ToString("0.00");
     }
 
+    public void SetValue(float val, bool setProperty, string str, bool replace)
+    {
+        SetValue(val, setProperty);
 
+        if (replace)
+        {
+            valeText.text = str;
+        }
+    }
 }
