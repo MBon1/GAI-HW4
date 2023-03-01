@@ -45,7 +45,7 @@ public class AStarWindow : EditorWindow
         //Time.timeScale = GetTimeScaleValue();
         if (mapLoader.map != null)
         {
-            mapLoader.map.hWeight = hWeight.value;
+            mapLoader.map.SetHWeight(hWeight.value);
         }
     }
 
@@ -83,11 +83,19 @@ public class AStarWindow : EditorWindow
             f.SetValue(0, true, "---", true);
         }
 
+        /*if (mapLoader.map != null)
+        {
+            hWeight.SetValue(mapLoader.map.hWeight, false);
+        }*/
+
+        timeScale.SetValue(Time.timeScale, true);
+    }
+
+    public void SetDefaultHWeight()
+    {
         if (mapLoader.map != null)
         {
             hWeight.SetValue(mapLoader.map.hWeight, false);
         }
-
-        timeScale.SetValue(Time.timeScale, true);
     }
 }

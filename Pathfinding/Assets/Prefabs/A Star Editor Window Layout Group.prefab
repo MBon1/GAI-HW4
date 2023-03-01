@@ -403,6 +403,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2977804859120183021, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
+      propertyPath: cap.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977804859120183021, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
       propertyPath: editorWindow
       value: 
       objectReference: {fileID: 8447542888074693882}

@@ -27,6 +27,7 @@ public class TileMapLoader : MonoBehaviour
 
     [Space(10)]
     [SerializeField] PathFindingMouseController mouseController;
+    [SerializeField] AStarWindow editorWindow;
 
     // Start is called before the first frame update
     void Start()
@@ -211,8 +212,10 @@ public class TileMapLoader : MonoBehaviour
 
         // Set Neighbors
         map.SetNeighbors();
-        map.SetHWeight(map.hWeight);
 
+        // Set h weight
+        map.SetHWeight(map.hWeight);
+        editorWindow.SetDefaultHWeight();
 
         mouseController.Reset();
     }
