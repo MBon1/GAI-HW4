@@ -231,7 +231,7 @@ public class Map
                 // COMPLETE (hungj2) : Do ray casting to determine neighbors
                 // If ray cast does NOT hit something, add node to neighbors
 
-                MapNode candidate = map[row, col];
+                MapNode candidate = node;
 
                 Vector3 posA = node.position;
                 Vector3 posB = candidate.position;

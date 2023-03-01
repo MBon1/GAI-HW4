@@ -53,7 +53,8 @@ public class AStar
                 yield break;
             }
 
-            foreach (MapNode successor in map.getNeighbors(q))
+            List<MapNode> neighbors = map.getNeighbors(q);
+            foreach (MapNode successor in neighbors)
             {
                 if (!successor.IsTraversable() || closedList.Contains(successor)) // If the start / end position is on a non-traversable tile. Need to consider this.
                 {
