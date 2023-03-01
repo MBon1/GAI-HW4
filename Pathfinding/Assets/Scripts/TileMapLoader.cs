@@ -195,6 +195,7 @@ public class TileMapLoader : MonoBehaviour
                     {
                         curr.SetNodeColor(MapNode.TraverseColor.WayPoint);
                         curr.isWayPoint = true;
+                        map.wayPoints.Add(curr);
                     }
                     else
                     {

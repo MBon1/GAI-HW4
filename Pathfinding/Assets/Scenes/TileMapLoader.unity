@@ -1472,7 +1472,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapFileName: test
   mapFile: 5
-  isWayPointMap: 0
+  isWayPointMap: 1
   useEuclidean: 1
   tileMap: {fileID: 1522021445}
   nontraversableTileMap: {fileID: 1740198588}

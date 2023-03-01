@@ -167,7 +167,14 @@ public class MapNode
         h = int.MaxValue;
         f = int.MaxValue;
         parent = null;
-        SetNodeColor(TraverseColor.None);
+        if (isWayPoint)
+        {
+            SetNodeColor(TraverseColor.WayPoint);
+        }
+        else
+        {
+            SetNodeColor(TraverseColor.None);
+        }
     }
 
     /* Checks if the tile is traversable.

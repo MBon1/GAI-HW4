@@ -79,7 +79,8 @@ public class PathFindingMouseController : MonoBehaviour
                         // If we're using waypoints, redetermine all way point neighbors
                         if (mapLoader.map.isWayPointMap)
                         {
-                            mapLoader.map.SetNeighbors();
+                            //mapLoader.map.SetNeighbors();
+                            mapLoader.map.wayPoints.Add(startNode);
                         }
                     }
                 }
@@ -112,6 +113,7 @@ public class PathFindingMouseController : MonoBehaviour
                         // If we're using waypoints, redetermine all way point neighbors
                         if (mapLoader.map.isWayPointMap)
                         {
+                            mapLoader.map.wayPoints.Add(endNode);
                             mapLoader.map.SetNeighbors();
                         }
 

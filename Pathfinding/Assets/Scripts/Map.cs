@@ -261,13 +261,24 @@ public class Map
      */
     public void SetNeighbors()
     {
-        for (int i = 0; i < rows; i++)
+        if (isWayPointMap)
         {
-            for (int j = 0; j < columns; j++)
+            foreach (MapNode node in wayPoints)
             {
-                if (map[i, j] != null)
+                Vector2Int pos = nodeMapLookUp[node];
+                node.neighbors = getNeighbors(pos.x, pos.y);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < columns; j++)
                 {
-                    map[i, j].neighbors = getNeighbors(i, j);
+                    if (map[i, j] != null)
+                    {
+                        map[i, j].neighbors = getNeighbors(i, j);
+                    }
                 }
             }
         }
@@ -355,6 +366,11 @@ public class Map
         foreach(MapNode node in map)
         {
             node.ResetTraverseData();
+            
+            if (wayPoints.Contains(node) && node.isWayPoint == false)
+            {
+                wayPoints.Remove(node);
+            }
         }
     }
 }
