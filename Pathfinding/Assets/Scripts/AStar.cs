@@ -43,6 +43,7 @@ public class AStar
                 while (q != null)
                 {
                     q.SetNodeColor(MapNode.TraverseColor.Start); // should add color path
+                    map.AddPointToLineRenderer(q.position);
                     q = q.parent;
                 }
                 isRunning = false;

@@ -16,6 +16,8 @@ public class Map
     public Dictionary<MapNode, Vector2Int> nodeMapLookUp { get; protected set; } = new Dictionary<MapNode, Vector2Int>();
     public List<MapNode> wayPoints = new List<MapNode>();
 
+    public LineRenderer lineRenderer;
+
     // Pathfinding Variables
     public int tilesPerNode { get; protected set; } = 1;
 
@@ -31,7 +33,7 @@ public class Map
      *  Returns: Map
      *  Expects: NONE
      */
-    public Map(int width, int height, int _tilesPerNode, bool useWayPoints)
+    public Map(int width, int height, int _tilesPerNode, bool useWayPoints, LineRenderer lr)
     {
         rows = (int)Mathf.Ceil((float)height / _tilesPerNode);
         columns = (int)Mathf.Ceil((float)width / _tilesPerNode);
@@ -41,6 +43,8 @@ public class Map
         tilesPerNode = _tilesPerNode;
 
         isWayPointMap = useWayPoints;
+
+        lineRenderer = lr;
     }
 
     /* Set a cell at the given row and column of the map with the given node.
@@ -110,6 +114,18 @@ public class Map
                 wayPoints.Remove(mapNode);
             }
         }
+    }
+
+    /* Returns a vector to offset a node position to be at the center of the node.
+     * 
+     *    Takes: NONE
+     * Modifies: NONE
+     *  Returns: Vector3 (offset value)
+     *  Expects: NONE
+     */
+    public Vector3 GetNodeOffset()
+    {
+        return new Vector3(0.5f, -0.5f, 0);
     }
 
     /* Returns the neighboring nodes of a requested node.
@@ -233,8 +249,7 @@ public class Map
                 // Do ray casting to determine neighbors
                 // If ray cast does NOT hit something, add node to neighbors
 
-                float nodeOffset = tilesPerNode / 2.0f;
-                Vector3 offset = new Vector3(nodeOffset, -nodeOffset, 0);
+                Vector3 offset = GetNodeOffset();
 
                 Vector3 posA = new Vector3(current.position.y, current.position.x * -1, current.position.z) + offset;
                 Vector3 posB = new Vector3(candidate.position.y, candidate.position.x * -1, candidate.position.z) + offset; 
@@ -377,5 +392,17 @@ public class Map
                 wayPoints.Remove(node);
             }
         }
+        lineRenderer.positionCount = 0;
+    }
+
+    public void AddPointToLineRenderer(Vector3 pos)
+    {
+        lineRenderer.positionCount++;
+
+        Vector3 offset = GetNodeOffset();
+
+        Vector3 newPos = new Vector3(pos.y, pos.x * -1, pos.z) + offset;
+
+        lineRenderer.SetPosition(lineRenderer.positionCount - 1, newPos);
     }
 }

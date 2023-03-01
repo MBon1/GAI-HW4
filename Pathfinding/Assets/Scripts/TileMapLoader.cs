@@ -28,6 +28,7 @@ public class TileMapLoader : MonoBehaviour
     [Space(10)]
     [SerializeField] PathFindingMouseController mouseController;
     [SerializeField] AStarWindow editorWindow;
+    [SerializeField] LineRenderer lineRenderer;
 
     // Start is called before the first frame update
     void Start()
@@ -125,8 +126,9 @@ public class TileMapLoader : MonoBehaviour
         }
 
         // Reset Maps
-        map = new Map(columns, rows, tilesPerNode, isWayPointMap);
+        map = new Map(columns, rows, tilesPerNode, isWayPointMap, lineRenderer);
         tileMap.ClearAllTiles();
+        lineRenderer.positionCount = 0;
 
         // Add new tiles
         for (int i = 0; i < rows; i++)
