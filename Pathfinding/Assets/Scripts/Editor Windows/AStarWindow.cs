@@ -18,7 +18,7 @@ public class AStarWindow : EditorWindow
 
     [SerializeField] TileMapLoader mapLoader;
 
-    Vector3Int position = new Vector3Int(-1, -1, 0);
+    Vector2Int position = new Vector2Int(-1, -1);
 
 
     public override void SetTargetObject(GameObject obj)
@@ -51,7 +51,15 @@ public class AStarWindow : EditorWindow
 
     public void SetTargetPosition(Vector3Int pos)
     {
-        position = pos;
+        if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
+        {
+            MapNode node = mapLoader.map.nodeByTile[pos];
+            position = mapLoader.map.nodeMapLookUp[node];
+        }
+        else
+        {
+            position = new Vector2Int(-1, -1);
+        }
         DisplayValues();
     }
 
