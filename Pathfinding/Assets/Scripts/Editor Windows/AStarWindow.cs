@@ -40,6 +40,7 @@ public class AStarWindow : EditorWindow
         timeScale.gameObject.SetActive(active);
 
         hWeight.gameObject.transform.parent.parent.gameObject.SetActive(active);
+        heuristic.gameObject.transform.parent.parent.gameObject.SetActive(active);
     }
 
     public override void SetTargetProperty()
