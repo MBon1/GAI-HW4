@@ -19,6 +19,8 @@ public class PathFindingMouseController : MonoBehaviour
 
     bool setStart = true;
 
+    [SerializeField] AStarWindow aStarEditor;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,9 @@ public class PathFindingMouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Vector3Int pos = GetTilePosition();
+        aStarEditor.SetTargetPosition(pos);
+
         if (Input.GetKeyDown(KeyCode.Equals))
         {
             Time.timeScale += 1;
@@ -44,9 +49,7 @@ public class PathFindingMouseController : MonoBehaviour
             return;
         }
 
-        Vector3Int pos = GetTilePosition();
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             // Set Start Position
             if (setStart)
