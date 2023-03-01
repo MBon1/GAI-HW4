@@ -155,7 +155,7 @@ public class TileMapLoader : MonoBehaviour
                 {
                     Vector2Int mapPos = new Vector2Int(Mathf.FloorToInt(i / (float)tilesPerNode), Mathf.FloorToInt(j / (float)tilesPerNode));
                     map.SetCell(mapPos.x, mapPos.y, node);
-                    Debug.Log("Node (" + mapPos.x + ", " + mapPos.y + ") @ (" + tilePos.x + ", " + tilePos.y + ") : ");
+                    //Debug.Log("Node (" + mapPos.x + ", " + mapPos.y + ") @ (" + tilePos.x + ", " + tilePos.y + ") : ");
                 }
             }
         }
