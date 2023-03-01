@@ -221,23 +221,23 @@ public class Map
         }
         else
         {
-            foreach (MapNode node in wayPoints)
+            foreach (MapNode candidate in wayPoints)
             {
-                if (map[row, col] == node)
+                MapNode current = map[row, col];
+                
+                if (current.Equals(candidate))
                 {
                     continue;
                 }
 
-                // COMPLETE (hungj2) : Do ray casting to determine neighbors
+                // Do ray casting to determine neighbors
                 // If ray cast does NOT hit something, add node to neighbors
 
-                MapNode candidate = node;
-
-                Vector3 posA = node.position;
+                Vector3 posA = current.position;
                 Vector3 posB = candidate.position;
 
-                Vector2 direction = new Vector2(posB.x - posA.x, posB.y - posA.y);
-                float distance = Mathf.Abs(Vector3.Distance(posA, posB));
+                Vector2 direction = new Vector2((posB.x - posA.x), (posB.y - posA.y));
+                float distance = Vector3.Distance(posA, posB);
 
                 RaycastHit2D hit = Physics2D.Raycast(posA, direction, distance);
 
