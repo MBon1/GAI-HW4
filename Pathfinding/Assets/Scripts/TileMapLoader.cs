@@ -128,6 +128,7 @@ public class TileMapLoader : MonoBehaviour
         // Reset Maps
         map = new Map(columns, rows, tilesPerNode, isWayPointMap, lineRenderer);
         tileMap.ClearAllTiles();
+        nontraversableTileMap.ClearAllTiles();
         lineRenderer.positionCount = 0;
 
         // Add new tiles
