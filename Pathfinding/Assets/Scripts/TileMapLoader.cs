@@ -215,7 +215,7 @@ public class TileMapLoader : MonoBehaviour
 
         // Set h weight
         map.SetHWeight(map.hWeight);
-        editorWindow.SetDefaultHWeight();
+        editorWindow.SetDefaults();
 
         mouseController.Reset();
     }

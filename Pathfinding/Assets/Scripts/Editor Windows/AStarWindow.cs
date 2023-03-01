@@ -16,6 +16,8 @@ public class AStarWindow : EditorWindow
 
     [SerializeField] NumericInputField hWeight;
 
+    [SerializeField] Dropdown heuristic;
+
     [SerializeField] TileMapLoader mapLoader;
 
     Vector2Int position = new Vector2Int(-1, -1);
@@ -91,11 +93,32 @@ public class AStarWindow : EditorWindow
         timeScale.SetValue(Time.timeScale, true);
     }
 
-    public void SetDefaultHWeight()
+    public void SetDefaults()
     {
         if (mapLoader.map != null)
         {
             hWeight.SetValue(mapLoader.map.hWeight, false);
+            SetAStarHeuristic();
         }
+    }
+
+    public void SetAStarHeuristic()
+    {
+        if (mapLoader.map == null)
+        {
+            return;
+        }
+
+        if (heuristic.value == 0)
+        {
+            // Euclidean
+            mapLoader.useEuclidean = true;
+        }
+        else
+        {
+            // Manhattan
+            mapLoader.useEuclidean = false;
+        }
+        mapLoader.map.useEuclidean = mapLoader.useEuclidean;
     }
 }
