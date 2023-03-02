@@ -30,6 +30,12 @@ public class PathFindingMouseController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            SceneLoader.LoadScene("Init");
+            return;
+        }
+
         Vector3Int pos = GetTilePosition();
 
         if (Input.GetKeyDown(KeyCode.Equals))
