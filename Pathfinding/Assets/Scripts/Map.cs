@@ -178,20 +178,20 @@ public class Map
             {
                 neighbors.Add(map[minRow, col]);
             }
-            else
+            /*else
             {
                 minRow = -1;
-            }
+            }*/
 
             int maxRow = row + 1;
             if (maxRow >= 0 && maxRow < rows)
             {
                 neighbors.Add(map[maxRow, col]);
             }
-            else
+            /*else
             {
                 maxRow = -1;
-            }
+            }*/
 
             // Columns
             int minCol = col - 1;
@@ -199,23 +199,23 @@ public class Map
             {
                 neighbors.Add(map[row, minCol]);
             }
-            else
+            /*else
             {
                 minCol = -1;
-            }
+            }*/
 
             int maxCol = col + 1;
             if (maxCol >= 0 && maxCol < columns)
             {
                 neighbors.Add(map[row, maxCol]);
             }
-            else
+            /*else
             {
                 maxCol = -1;
-            }
+            }*/
 
             // Diagonals    minRow  maxRow  minCol  maxCol
-            if (minRow > -1 && minCol > -1)
+            /*if (minRow > -1 && minCol > -1)
             {
                 neighbors.Add(map[minRow, minCol]);
             }
@@ -233,7 +233,7 @@ public class Map
             if (maxRow > -1 && maxCol > -1)
             {
                 neighbors.Add(map[maxRow, maxCol]);
-            }
+            }*/
         }
         else
         {
