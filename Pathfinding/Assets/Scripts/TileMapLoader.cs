@@ -157,7 +157,11 @@ public class TileMapLoader : MonoBehaviour
                     tileMap.SetTile(tilePos, tile);
                     // If tile is not traversable, add to nontraversable tilemap
                     if (tile != walkableTile.tile)
+                    {
                         nontraversableTileMap.SetTile(tilePos, tile);
+                        nontraversableTileMap.SetTileFlags(tilePos, TileFlags.None);
+                        nontraversableTileMap.SetColor(tilePos, Color.clear);
+                    }
                 }
                 else
                 {

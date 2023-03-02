@@ -212,7 +212,7 @@ public class MapNode
         }
         else if (color == TraverseColor.Start)
         {
-            c = new Color(1, 229f / 255f, 0, 1);    // Yellow
+            c = new Color(247f / 255f, 176 / 255f, 17f / 255f, 1);    // Dark Yellow
         }
         else if (color == TraverseColor.End)
         {
@@ -226,6 +226,8 @@ public class MapNode
         {
             c = Color.white;
         }
+
+        c.a = GetNodeColorAlpha();
 
         SetNodeColor(c);
     }
@@ -244,6 +246,49 @@ public class MapNode
             tilemap.SetTileFlags(tile, TileFlags.None);
             tilemap.SetColor(tile, color);
         }
+    }
+
+    /* Changes the alpha of the color of all tiles represented by this node.
+     * 
+     *    Takes: float
+     * Modifies: alpha of the colors of tiles
+     *  Returns: NONE
+     *  Expects: NONE
+     */
+    public void SetNodeAlpha(float alpha)
+    {
+        foreach (Vector3Int tile in tiles)
+        {
+            tilemap.SetTileFlags(tile, TileFlags.None);
+            Color c = tilemap.GetColor(tile);
+            tilemap.SetColor(tile, new Color(c.r, c.g, c.b, alpha));
+        }
+    }
+
+    /* Returns the color of this node.
+     * 
+     *    Takes: NONE
+     * Modifies: NONE
+     *  Returns: Color
+     *  Expects: Node represents at least 1 tile
+     *           All tiles represented are the same color
+     */
+    public Color GetNodeColor()
+    {
+        return tilemap.GetColor(tiles[0]);
+    }
+
+    /* Returns the color of this node.
+     * 
+     *    Takes: NONE
+     * Modifies: NONE
+     *  Returns: Color
+     *  Expects: Node represents at least 1 tile
+     *           All tiles represented are the same color
+     */
+    public float GetNodeColorAlpha()
+    {
+        return tilemap.GetColor(tiles[0]).a;
     }
 
     /* Calculates the Manhattan distance between two points.

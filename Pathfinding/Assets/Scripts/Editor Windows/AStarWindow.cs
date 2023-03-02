@@ -23,6 +23,10 @@ public class AStarWindow : EditorWindow
 
     Vector2Int position = new Vector2Int(-1, -1);
 
+    [Space(10)]
+    MapNode currNode = null;
+    float selectedAlpha = 0.75f;
+
 
     public override void SetTargetObject(GameObject obj)
     {
@@ -60,10 +64,18 @@ public class AStarWindow : EditorWindow
         {
             MapNode node = mapLoader.map.nodeByTile[pos];
             position = mapLoader.map.nodeMapLookUp[node];
+
+            if (currNode != null)
+            {
+                currNode.SetNodeAlpha(1);
+            }
+            currNode = node;
+            currNode.SetNodeAlpha(selectedAlpha);
         }
         else
         {
             position = new Vector2Int(-1, -1);
+            currNode = null;
         }
         DisplayValues();
     }
@@ -75,6 +87,14 @@ public class AStarWindow : EditorWindow
             position.y >= 0 && position.y < mapLoader.map.columns)
         {
             pos.text = "(" + position.x + " , " + position.y + ")";
+
+            Color color = currNode.GetNodeColor();
+            if (color.r == 1 && color.g == 1 && color.b == 1)
+            {
+                color = Color.black;
+            }
+            pos.color = new Color(color.r, color.g, color.b, 1);
+
             MapNode node = mapLoader.map.map[position.x, position.y];
             g.SetValue(node.g, true, "---", (node.g >= int.MaxValue));
             h.SetValue(node.h, true, "---", (node.h >= int.MaxValue));
@@ -83,6 +103,7 @@ public class AStarWindow : EditorWindow
         else
         {
             pos.text = "???";
+            pos.color = Color.black;
             g.SetValue(0, true, "---", true);
             h.SetValue(0, true, "---", true);
             f.SetValue(0, true, "---", true);

@@ -340,6 +340,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1279639109}
     m_Modifications:
+    - target: {fileID: 2977804859120183016, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1536086085}
+    - target: {fileID: 2977804859120183016, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetValue
+      objectReference: {fileID: 0}
+    - target: {fileID: 2977804859120183016, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
+      propertyPath: m_OnEndEdit.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TileSizeSetter, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2977804859120183017, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2216,7 +2228,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2977804859120183014, guid: b2da83053e0dbb24fa7ae5be32a32d97, type: 3}
   m_PrefabInstance: {fileID: 72012159}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1536086084
+--- !u!114 &1536086085
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
