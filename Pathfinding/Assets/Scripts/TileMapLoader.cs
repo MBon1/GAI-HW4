@@ -26,6 +26,7 @@ public class TileMapLoader : MonoBehaviour
     Dictionary<char, TileData> tileKeyLookUp = new Dictionary<char, TileData>();
 
     public int tilesPerNode = 1;
+    public static int _tilesPerNode = -1;
     public Map map { get; private set; } = null;
 
     [Space(10)]
@@ -39,6 +40,11 @@ public class TileMapLoader : MonoBehaviour
         StoreTileData(boundaryTile);
         StoreTileData(unpassableTile);
         StoreTileData(walkableTile);
+
+        if (_tilesPerNode > 0)
+        {
+            tilesPerNode = _tilesPerNode;
+        }
 
         LoadTileMap();
     }
