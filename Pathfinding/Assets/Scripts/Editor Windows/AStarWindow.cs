@@ -60,15 +60,16 @@ public class AStarWindow : EditorWindow
 
     public void SetTargetPosition(Vector3Int pos)
     {
+        if (currNode != null)
+        {
+            currNode.SetNodeAlpha(1);
+        }
+
         if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
         {
             MapNode node = mapLoader.map.nodeByTile[pos];
             position = mapLoader.map.nodeMapLookUp[node];
 
-            if (currNode != null)
-            {
-                currNode.SetNodeAlpha(1);
-            }
             currNode = node;
             currNode.SetNodeAlpha(selectedAlpha);
         }

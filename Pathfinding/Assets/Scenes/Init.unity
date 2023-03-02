@@ -160,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 185, y: -400}
+  m_AnchoredPosition: {x: 582.5, y: -407}
   m_SizeDelta: {x: 275, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &424271735
@@ -328,7 +328,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -339,13 +339,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Formation Algorithm Key: \n      RayCasting (Collision Detection):\n           
-    No Collision (Green Lines)\n            Collision (Red Lines)\n\n      Path:
-    \n            White Circles\n\n      Agents: \n            Green Circles with
-    Yellow \n                  Triangle\n\n      Formation Transition Triggers:\n           
-    Semi-Transparent Yellow Square\n\n      Scalable Formation: \n            Shape
-    Positions: Grey Dot\n\n      Two Level Formation:\n            Target Position:
-    Grey Dot\n            \"Invisible\" Leader: Red Dot"
+  m_Text: "LEGEND: \n      Start Point & Valid Path (Dark Yellow)\n\n      End Point
+    (Magenta)\n\n      Open List Nodes (Red)\n\n      Closed List Nodes (Blue)\n\n     
+    Path Line\n            Start Point (Mageta)\n            End Point (Cyan)\n\n     
+    Tiles\n            Walkable Tiles (White)\n            Trees - Unpassable (Green)\n           
+    Out of Bounds (Grey)\n\nNOTE: Nodes are composed of multiple tiles\n"
 --- !u!222 &747085121
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -641,7 +639,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 18
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -652,10 +650,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "Controls: \n   Move Player Character\n      Forwards (W / Up-Arrow)\n     
-    Backwards (S / Down-Arrow)\n\n   Rotate Player Character\n      Counterclockwise
-    (A / Left-Arrow)\n      Clockwise (D / Right-Arrow)\n\n   Destroy Agent: \n     
-    Collide Player (black) into Agent (green)\n\n   Return to Title Scene (Esc)"
+  m_Text: "CONTROLS: \n   Return to Previous Scene (Q)\n\n   Setting Node Size\n     
+    Input integer value in Maps Scene + Enter\n\n   Setting Start & End Nodes\n     
+    Right Mouse Click\n\n   Camera\n      Move Camera Position\n         Arrow Keys\n     
+    Change Camera Zoom\n         Mouse Scroll Wheel\n\n   Speed Up (=) and Slow Down
+    (-)\n\n   A* Editor\n      Setting H Weight\n         Input float value in A*
+    Editor + Enter\n      Setting Heuristic\n         Select Heuristic from Dropdown"
 --- !u!222 &1685441134
 CanvasRenderer:
   m_ObjectHideFlags: 0
