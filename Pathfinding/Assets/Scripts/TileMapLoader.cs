@@ -30,7 +30,7 @@ public class TileMapLoader : MonoBehaviour
 
     [Space(10)]
     [SerializeField] PathFindingMouseController mouseController;
-    [SerializeField] AStarWindow editorWindow;
+    public AStarWindow editorWindow;
     [SerializeField] LineRenderer lineRenderer;
 
     // Start is called before the first frame update

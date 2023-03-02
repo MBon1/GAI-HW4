@@ -36,6 +36,6 @@ public class LabelledValue : EditorWidget
 
     public void SetValue(string str)
     {
-
+        valeText.text = str;
     }
 }

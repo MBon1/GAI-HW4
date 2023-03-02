@@ -7,9 +7,10 @@ public class AStar
     public bool isRunning { get; private set; } = false;
 
 
-    public IEnumerator AStarCoroutine(Map map, MapNode start, MapNode goal, float waitTime = 0.5f)
+    public IEnumerator AStarCoroutine(AStarWindow editor, Map map, MapNode start, MapNode goal, float waitTime = 0.5f)
     {
         isRunning = true;
+        editor.SetPathFindingMessage("RUNNING");
 
         List<MapNode> openList = new List<MapNode>();
         List<MapNode> closedList = new List<MapNode>();
@@ -50,6 +51,7 @@ public class AStar
 
                 // COMPLETE (staplp2) : Draw final path
 
+                editor.SetPathFindingMessage("PATH FOUND");
                 Debug.Log("PATH FOUND!");
                 yield break;
             }
@@ -124,6 +126,7 @@ public class AStar
 
         isRunning = false;
 
+        editor.SetPathFindingMessage("NO PATH FOUND");
         Debug.Log("NO PATH FOUND!");
     }
 

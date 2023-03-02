@@ -52,6 +52,7 @@ public class PathFindingMouseController : MonoBehaviour
                 {
                     // Reset pathfinding values in map
                     mapLoader.map.ResetPathFinding();
+                    mapLoader.editorWindow.SetPathFindingMessage("...");
 
                     if (mapLoader.map != null && mapLoader.map.nodeByTile.ContainsKey(pos))
                     {
@@ -118,7 +119,7 @@ public class PathFindingMouseController : MonoBehaviour
                         }
 
                         // Perform A*
-                        StartCoroutine(astar.AStarCoroutine(mapLoader.map, startNode, endNode));
+                        StartCoroutine(astar.AStarCoroutine(mapLoader.editorWindow, mapLoader.map, startNode, endNode));
                     }
                 }
             }

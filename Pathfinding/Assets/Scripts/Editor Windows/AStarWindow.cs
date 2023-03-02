@@ -13,6 +13,7 @@ public class AStarWindow : EditorWindow
     [SerializeField] LabelledValue f;
 
     [SerializeField] LabelledValue timeScale;
+    [SerializeField] LabelledValue pathFinding;
 
     [SerializeField] NumericInputField hWeight;
 
@@ -38,6 +39,7 @@ public class AStarWindow : EditorWindow
         f.gameObject.SetActive(active);
 
         timeScale.gameObject.SetActive(active);
+        pathFinding.gameObject.SetActive(active);
 
         hWeight.gameObject.transform.parent.parent.gameObject.SetActive(active);
         heuristic.gameObject.transform.parent.parent.gameObject.SetActive(active);
@@ -86,11 +88,6 @@ public class AStarWindow : EditorWindow
             f.SetValue(0, true, "---", true);
         }
 
-        /*if (mapLoader.map != null)
-        {
-            hWeight.SetValue(mapLoader.map.hWeight, false);
-        }*/
-
         timeScale.SetValue(Time.timeScale, true);
     }
 
@@ -100,6 +97,7 @@ public class AStarWindow : EditorWindow
         {
             hWeight.SetValue(mapLoader.map.hWeight, false);
             SetAStarHeuristic();
+            SetPathFindingMessage("...");
         }
     }
 
@@ -121,5 +119,10 @@ public class AStarWindow : EditorWindow
             mapLoader.useEuclidean = false;
         }
         mapLoader.map.useEuclidean = mapLoader.useEuclidean;
+    }
+
+    public void SetPathFindingMessage(string text)
+    {
+        pathFinding.SetValue(text);
     }
 }
