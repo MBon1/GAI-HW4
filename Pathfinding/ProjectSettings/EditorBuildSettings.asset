@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AStar Lak104d Waypoint.unity
     guid: cabc40b246a73fa49b845f20e6894273
+  - enabled: 1
+    path: Assets/Scenes/Maps.unity
+    guid: c58147b9f3af60c44980e9ef38ef6c3b
   m_configObjects: {}

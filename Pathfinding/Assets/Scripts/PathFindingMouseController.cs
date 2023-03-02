@@ -32,7 +32,7 @@ public class PathFindingMouseController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SceneLoader.LoadScene("Init");
+            SceneLoader.LoadScene("Maps");
             return;
         }
 
