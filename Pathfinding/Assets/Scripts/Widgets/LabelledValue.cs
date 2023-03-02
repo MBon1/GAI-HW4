@@ -33,4 +33,9 @@ public class LabelledValue : EditorWidget
             valeText.text = str;
         }
     }
+
+    public void SetValue(string str)
+    {
+
+    }
 }

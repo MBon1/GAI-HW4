@@ -7,6 +7,9 @@ using UnityEngine.Tilemaps;
 
 public class TileMapLoader : MonoBehaviour
 {
+    public bool loadMapOnStart = true;
+
+    [Space(10)]
     public string mapFileName = "";
     public Maps mapFile = Maps.NONE;
     public bool isWayPointMap = false;
@@ -36,6 +39,8 @@ public class TileMapLoader : MonoBehaviour
         StoreTileData(boundaryTile);
         StoreTileData(unpassableTile);
         StoreTileData(walkableTile);
+
+        LoadTileMap();
     }
 
     /* Record tile data into look up tables.
