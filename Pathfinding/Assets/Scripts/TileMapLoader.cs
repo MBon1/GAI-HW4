@@ -87,9 +87,9 @@ public class TileMapLoader : MonoBehaviour
         if (mapFile == Maps.test)
             mapName = "test";
 
-        string mapFilePath = "Assets/Maps/" + mapName + ".map";
+        string mapFilePath = Path.Combine("Maps", mapName);
 
-        if (!File.Exists(mapFilePath))
+        /*if (!File.Exists(mapFilePath))
         {
             Debug.LogError("FILE DOES NOT EXIST: " + mapFilePath);
             return;
@@ -97,7 +97,7 @@ public class TileMapLoader : MonoBehaviour
         else
         {
             Debug.Log(mapFilePath);
-        }
+        }*/
 
         string height = "height ";
         string width = "width ";
@@ -105,11 +105,20 @@ public class TileMapLoader : MonoBehaviour
         int rows = 0;
         int columns = 0;
 
-        StreamReader reader = new StreamReader(mapFilePath);
-        string line = reader.ReadLine();
-        while (line != null && !line.Equals("map"))
+        TextAsset textFile = (TextAsset)Resources.Load(mapFilePath, typeof(TextAsset));
+        List<string> lines = new List<string>(textFile.text.Split('\n'));
+        int lineNum = 0;
+        if (lineNum >= lines.Count)
+            return;
+
+        string line = lines[lineNum];
+        while (line != null && !line.Contains("map"))
         {
             line = line.ToLower();
+            if (line.Contains("\r"))
+            {
+                line = line.Replace("\r", "");
+            }
             //Debug.Log(line);
             if (line.Contains(height))
             {
@@ -133,8 +142,14 @@ public class TileMapLoader : MonoBehaviour
                 }
             }
 
-            line = reader.ReadLine();
+            lineNum++;
+            if (lineNum >= lines.Count)
+                return;
+
+            if (lineNum < lines.Count)
+                line = lines[lineNum];
         }
+        lineNum++;
 
         // Reset Maps
         map = new Map(columns, rows, tilesPerNode, isWayPointMap, lineRenderer);
@@ -145,7 +160,14 @@ public class TileMapLoader : MonoBehaviour
         // Add new tiles
         for (int i = 0; i < rows; i++)
         {
-            line = reader.ReadLine();
+            if (lineNum + i >= lines.Count)
+                return;
+
+            line = lines[lineNum + i];
+            if (line.Contains("\r"))
+            {
+                line = line.Replace("\r", "");
+            }
 
             for (int j = 0; j < columns; j++)
             {
